@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TextureCombiner"
         mc:Ignorable="d"
-        Title="TextureCombiner" Height="450" Width="800" WindowStartupLocation="CenterScreen" Background="#FFF4F4F4" RenderTransformOrigin="0.5,0.5">
+        Title="TextureCombiner" Height="450" Width="800" WindowStartupLocation="CenterScreen" Background="#FFF4F4F4" RenderTransformOrigin="0.5,0.5" ResizeMode="NoResize">
     <Grid x:Name="MainGrid" Background="#FFF3F3F3">
         <local:ImportTexture x:Name="ImportTextureA" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <local:ImportTexture x:Name="ImportTextureB" HorizontalAlignment="Center" Margin="0,0,320,0" VerticalAlignment="Top"/>
