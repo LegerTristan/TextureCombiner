@@ -1,78 +1,89 @@
-﻿using System.Drawing.Imaging;
+﻿using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using System;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using TextureCombiner.Source.Datas.Utils;
 
 namespace TextureCombiner
 {
     /// <summary>
-    /// Format that can hanle the program
+    /// Formats that can handle the program
     /// </summary>
     public enum TextureFormat
     {
-        JPG,
         PNG,
         TGA,
-        TIFF,
-        WEBP
+        TIFF
+    }
+
+    public enum AuthorizedPixelFormat
+    {
+        BGRA32,
+        BGR24
     }
 
     /// <summary>
     /// Parameters to config a bitmap such as format, size, and use base texture's path.
     /// </summary>
-    public struct BitmapConfig
+    public class BitmapConfig
     {
         #region Constants
         public const int MIN_SIZE = 1, MAX_SIZE = 4096;
         #endregion
 
         #region F/P
-        public string[] TexturePaths { get; set; }
-        public TextureFormat Format { get; set; }
-        public EncoderValue CompressionType { get; set; }
+        public event Action<TextureFormat> OnTextureFormatChanged = null;
+        public event Action<AuthorizedPixelFormat> OnPixelFormatChanged = null;
+
+        public BitmapSource[] Textures { get; set; }
+
+        TextureFormat textureFormat = TextureFormat.TGA;
+
+        public TextureFormat TextureFormat => textureFormat;
+
+        AuthorizedPixelFormat pixelFormat = AuthorizedPixelFormat.BGR24;
+
+        AuthorizedPixelFormat currentBitmapPixelFormat = AuthorizedPixelFormat.BGR24;
+
+        public PixelFormat GetPixelFormat()
+        {
+            switch (pixelFormat)
+            {
+                case AuthorizedPixelFormat.BGR24:
+                default:
+                    return PixelFormats.Bgr24;
+                case AuthorizedPixelFormat.BGRA32:
+                    return PixelFormats.Bgra32;
+            }
+        }
+
+        public void SetBitmapPixelFormat(string _strFormat) => currentBitmapPixelFormat = 
+            StringToPixelFormat(_strFormat);
+
         public int CompressQuality { get; set; }
-        public bool UseAlpha { get; set; }
         public bool UseCompression { get; set; }
 
-        public bool IsLossyFormat => Format == TextureFormat.JPG || Format == TextureFormat.WEBP;
         #endregion
 
         #region Constructor
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        /// <param name="_paths"><see cref="Bitmap"/> path</param>
-        /// <param name="_format"><see cref="Bitmap"/> format</param>
-        /// <param name="_quality"><see cref="Bitmap"/> compression quality</param>
-        /// <param name="_alpha"><see cref="Bitmap"/> alpha boolean</param>
-        /// <param name="_compression"><see cref="Bitmap"/> compression boolean</param>
-        public BitmapConfig(string[] _paths, TextureFormat _format = TextureFormat.JPG, EncoderValue _compressionType = EncoderValue.CompressionLZW,
-            int _quality = 255, bool _alpha = false, bool _compression = false)
+        public BitmapConfig(BitmapImage[] _textures, string _strFormat, string _strPixelFormat, 
+            int _quality = 255, bool _compression = false)
         {
-            TexturePaths = _paths;
-            Format = _format;
-            CompressionType = _compressionType;
+            Textures = _textures;
+            textureFormat = StringToTextureFormat(_strFormat);
+            pixelFormat = StringToPixelFormat(_strPixelFormat);
             CompressQuality = _quality;
-            UseAlpha = _alpha;
             UseCompression = _compression;
         }
         #endregion
 
         #region Methods
 
-        /// <summary>
-        /// Get <see cref="EncoderParameters"/> vlid with the current <see cref="TextureFormat"/>
-        /// </summary>
-        /// <returns>A list of <see cref="EncoderParameter"/> valid with the current <see cref="TextureFormat"/></returns>
-        public EncoderParameters GetEncoderParameters()
+        public void SetTextureFormat(string _strFormat)
         {
-            if (!UseCompression)
-                return null;
-
-            EncoderParameters _params = new EncoderParameters(1);
-            if (IsLossyFormat)
-                _params.Param[0] = new EncoderParameter(Encoder.Quality, CompressQuality);
-            else
-                _params.Param[0] = new EncoderParameter(Encoder.Compression, (long)CompressionType);
-
-            return _params;
+            textureFormat = StringToTextureFormat(_strFormat);
+            OnTextureFormatChanged?.Invoke(textureFormat);
         }
 
         /// <summary>
@@ -80,36 +91,29 @@ namespace TextureCombiner
         /// </summary>
         /// <param name="_str"><see cref="string"/> to cast</param>
         /// <returns><see cref="TextureFormat"/> from the casted <see cref="string"/> (By default returns <see cref="TextureFormat"/>.JPG)</returns>
-        public TextureFormat StringToFormat(string _str)
+        TextureFormat StringToTextureFormat(string _str)
         {
             switch (_str)
             {
-                case ".jpg":
-                default:
-                    return TextureFormat.JPG;
                 case ".png":
                     return TextureFormat.PNG;
                 case ".tga":
+                default:
                     return TextureFormat.TGA;
                 case ".tiff":
                     return TextureFormat.TIFF;
-                case ".webp":
-                    return TextureFormat.WEBP;
             }
         }
 
         /// <summary>
         /// Cast a <see cref="TextureFormat"/> in <see cref="string"/>
         /// </summary>
-        /// <param name="_format"><see cref="TextureFormat"/> to cast</param>
         /// <returns><see cref="string"/> value of the casted <see cref="TextureFormat"/>
         /// (By default, returns .png</returns>
-        public string FormatToString(TextureFormat _format)
+        public string TextureFormatToString()
         {
-            switch(_format)
+            switch(textureFormat)
             {
-                case TextureFormat.JPG:
-                    return ".jpg";
                 case TextureFormat.PNG:
                 default:
                     return ".png";
@@ -117,29 +121,58 @@ namespace TextureCombiner
                     return ".tga";
                 case TextureFormat.TIFF:
                     return ".tiff";
-                case TextureFormat.WEBP:
-                    return ".webp";
             }
         }
 
-        /// <summary>
-        /// Get an <see cref="EncoderValue"/> for compression from a <see cref="string"/>
-        /// </summary>
-        /// <param name="_str"><see cref="string"/> to cast</param>
-        /// <returns>Returns an <see cref="EncoderValue"/> containing a compression type (By default LZW)</returns>
-        public EncoderValue CompressionTypeFromString(string _str)
+        public void SetPixelFormat(string _strFormat)
+        {
+            pixelFormat = StringToPixelFormat(_strFormat);
+            OnPixelFormatChanged?.Invoke(pixelFormat);
+        }
+
+        AuthorizedPixelFormat StringToPixelFormat(string _str)
         {
             switch (_str)
             {
-                case "LZW":
+                case "BGRA32":
+                    return AuthorizedPixelFormat.BGRA32;
+                case "BGR24":
                 default:
-                    return EncoderValue.CompressionLZW;
-                case "RLE":
-                    return EncoderValue.CompressionRle;
-                case "CCITT3":
-                    return EncoderValue.CompressionCCITT3;
-                case "CCITT4":
-                    return EncoderValue.CompressionCCITT4;
+                    return AuthorizedPixelFormat.BGR24;
+            }
+        }
+
+        public bool UseAlpha()
+        {
+            return AuthorizedPixelFormat.BGRA32 == pixelFormat;
+        }
+
+        public Image ConfigureImage(BitmapSource _src)
+        {
+            Image _img = null;
+            switch(currentBitmapPixelFormat)
+            {
+                case AuthorizedPixelFormat.BGRA32:
+                    _img = _src.ToImageSharp<Bgra32>();
+                    break;
+                case AuthorizedPixelFormat.BGR24:
+                default:
+                    _img = _src.ToImageSharp<Bgr24>();
+                    break;
+            }
+
+            return _img;
+        }
+
+        public int GetNbrCanals()
+        {
+            switch (pixelFormat)
+            {
+                case AuthorizedPixelFormat.BGRA32:
+                    return 4;
+                case AuthorizedPixelFormat.BGR24:
+                default:
+                    return 3;
             }
         }
         #endregion
