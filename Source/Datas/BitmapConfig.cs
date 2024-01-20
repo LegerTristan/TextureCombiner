@@ -14,13 +14,18 @@ namespace TextureCombiner
     {
         PNG,
         TGA,
-        TIFF
+        TIFF,
+        BMP,
+        JPG
     }
 
     public enum AuthorizedPixelFormat
     {
-        BGRA32,
-        BGR24
+        BGRA32  = 1,
+        BGR24   = 2,
+        RGB24   = 4,
+        RGB48   = 8,
+        RGBA32  = 16,
     }
 
     /// <summary>
@@ -28,11 +33,9 @@ namespace TextureCombiner
     /// </summary>
     public class BitmapConfig
     {
-        #region Constants
-        public const int MIN_SIZE = 1, MAX_SIZE = 4096;
-        #endregion
-
         #region F/P
+        const int SUPPORT_ALPHA_MASK = 0b10001;
+
         public event Action<TextureFormat> OnTextureFormatChanged = null;
         public event Action<AuthorizedPixelFormat> OnPixelFormatChanged = null;
 
@@ -40,11 +43,13 @@ namespace TextureCombiner
 
         TextureFormat textureFormat = TextureFormat.TGA;
 
-        public TextureFormat TextureFormat => textureFormat;
-
         AuthorizedPixelFormat pixelFormat = AuthorizedPixelFormat.BGR24;
 
         AuthorizedPixelFormat currentBitmapPixelFormat = AuthorizedPixelFormat.BGR24;
+
+        public TextureFormat TextureFormat => textureFormat;
+
+        public AuthorizedPixelFormat AuthorizedPixelFormat => pixelFormat;
 
         public PixelFormat GetPixelFormat()
         {
@@ -54,15 +59,17 @@ namespace TextureCombiner
                 default:
                     return PixelFormats.Bgr24;
                 case AuthorizedPixelFormat.BGRA32:
+                case AuthorizedPixelFormat.RGBA32:
                     return PixelFormats.Bgra32;
+                case AuthorizedPixelFormat.RGB24:
+                    return PixelFormats.Rgb24;
+                case AuthorizedPixelFormat.RGB48:
+                    return PixelFormats.Rgb48;
             }
         }
 
         public void SetBitmapPixelFormat(string _strFormat) => currentBitmapPixelFormat = 
             StringToPixelFormat(_strFormat);
-
-        public int CompressQuality { get; set; }
-        public bool UseCompression { get; set; }
 
         #endregion
 
@@ -73,8 +80,6 @@ namespace TextureCombiner
             Textures = _textures;
             textureFormat = StringToTextureFormat(_strFormat);
             pixelFormat = StringToPixelFormat(_strPixelFormat);
-            CompressQuality = _quality;
-            UseCompression = _compression;
         }
         #endregion
 
@@ -102,6 +107,10 @@ namespace TextureCombiner
                     return TextureFormat.TGA;
                 case ".tiff":
                     return TextureFormat.TIFF;
+                case ".bmp":
+                    return TextureFormat.BMP;
+                case ".jpg":
+                    return TextureFormat.JPG;
             }
         }
 
@@ -121,6 +130,10 @@ namespace TextureCombiner
                     return ".tga";
                 case TextureFormat.TIFF:
                     return ".tiff";
+                case TextureFormat.BMP:
+                    return ".bmp";
+                case TextureFormat.JPG:
+                    return ".jpeg";
             }
         }
 
@@ -136,6 +149,12 @@ namespace TextureCombiner
             {
                 case "BGRA32":
                     return AuthorizedPixelFormat.BGRA32;
+                case "RGBA32":
+                    return AuthorizedPixelFormat.RGBA32;
+                case "RGB24":
+                    return AuthorizedPixelFormat.RGB24;
+                case "RGB48":
+                    return AuthorizedPixelFormat.RGB48;
                 case "BGR24":
                 default:
                     return AuthorizedPixelFormat.BGR24;
@@ -144,7 +163,7 @@ namespace TextureCombiner
 
         public bool UseAlpha()
         {
-            return AuthorizedPixelFormat.BGRA32 == pixelFormat;
+            return ((int)pixelFormat & SUPPORT_ALPHA_MASK) != 0;
         }
 
         public Image ConfigureImage(BitmapSource _src)
@@ -154,6 +173,16 @@ namespace TextureCombiner
             {
                 case AuthorizedPixelFormat.BGRA32:
                     _img = _src.ToImageSharp<Bgra32>();
+                    break;
+                case AuthorizedPixelFormat.RGBA32:
+                    Image _tempImg = _src.ToImageSharp<Bgra32>();
+                    _img = _tempImg.CloneAs<Rgba32>();
+                    break;
+                case AuthorizedPixelFormat.RGB24:
+                    _img = _src.ToImageSharp<Rgb24>();
+                    break;
+                case AuthorizedPixelFormat.RGB48:
+                    _img = _src.ToImageSharp<Rgb48>();
                     break;
                 case AuthorizedPixelFormat.BGR24:
                 default:
@@ -169,6 +198,7 @@ namespace TextureCombiner
             switch (pixelFormat)
             {
                 case AuthorizedPixelFormat.BGRA32:
+                case AuthorizedPixelFormat.RGBA32:
                     return 4;
                 case AuthorizedPixelFormat.BGR24:
                 default:

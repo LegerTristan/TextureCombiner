@@ -2,7 +2,10 @@
 using System.Windows.Media.Imaging;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
+using SixLabors.ImageSharp.Formats.Bmp;
+using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.Formats.Tga;
 using SixLabors.ImageSharp.Formats.Tiff;
 
 namespace TextureCombiner
@@ -59,7 +62,13 @@ namespace TextureCombiner
                     _encoder = new TiffEncoder();
                     break;
                 case TextureFormat.TGA:
-                    _encoder = new TiffEncoder();
+                    _encoder = new TgaEncoder();
+                    break;
+                case TextureFormat.BMP:
+                    _encoder = new BmpEncoder();
+                    break;
+                case TextureFormat.JPG:
+                    _encoder = new JpegEncoder();
                     break;
                 default:
                     break;

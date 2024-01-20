@@ -42,6 +42,7 @@ namespace TextureCombiner
         public TextureChannelControl()
         {
             InitializeComponent();
+            OnTextureImported += SetResolutionText;
         }
 
         #region WindowEvents
@@ -59,7 +60,7 @@ namespace TextureCombiner
                 ImportTexture(_dialog.FileName);
         }
 
-        void OnImgBorderMouseDropped(object _sender, System.Windows.DragEventArgs _dragEvent)
+        void OnTextureChannelMouseDropped(object _sender, DragEventArgs _dragEvent)
         {
             if (!isEnabled)
                 return;
@@ -87,6 +88,12 @@ namespace TextureCombiner
         {
             isEnabled = _isEnabled;
             TextureChannelBtn.IsEnabled = _isEnabled;
+        }
+
+        void SetResolutionText(BitmapSource _src)
+        {
+            TextureChannelRes.Text = $"{_src.PixelWidth}x{_src.PixelHeight}";
+            TextureChannelRes.Visibility = Visibility.Visible;
         }
 
         public bool IsValid()

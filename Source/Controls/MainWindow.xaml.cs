@@ -20,7 +20,9 @@ namespace TextureCombiner
                      INFO_GENERATION = "Generating the bitmap, please wait.",
                      INFO_GENERATION_SUCCESS = "Successfully generate the texture !",
                      INFO_SAVE = "Saving the texture into the specified folder, please wait.",
-                     INFO_SAVE_SUCCESS = "Successfully saved the texture !";
+                     INFO_SAVE_SUCCESS = "Successfully saved the texture !",
+                     ICON_ERROR_PATH = "Assets/IconError.png",
+                     ICON_WARNING_PATH = "Assets/IconWarning.png";
 
 
         #region F/P
@@ -57,15 +59,14 @@ namespace TextureCombiner
             TxtBoxTextureName.Text = generator.DefaultFileName;
             TxtFolderPath.Text = generator.DefaultFolder;
 
-            OnFolderPathChanged += SetFolderPathText;
-
+            OnFolderPathChanged += SetFolderPathText; 
             config.OnPixelFormatChanged += UpdateAlphaChannel;
 
             generator.OnGenerationCompleted += (_bitmap) =>
             {
                 Dispatcher.Invoke(() =>
                 {
-                    SetTitle("TextureCombiner");
+                    SetTitle(WINDOW_TITLE);
                     _bitmap.Freeze();
                     SetBitmapPreview(_bitmap);
                     ComboBoxItem _pixelFormatItem = CbsPixelFormat.SelectedValue as ComboBoxItem;
@@ -74,6 +75,7 @@ namespace TextureCombiner
                 });
             };
 
+            UpdateAlphaChannel(AuthorizedPixelFormat.BGR24);
             InitImportTexture();
             StartTick();
         }
@@ -140,7 +142,7 @@ namespace TextureCombiner
 
             SetEnableButtons(false);
 
-            DisplayInfo(INFO_GENERATION, Colors.Black);
+            DisplayLog(INFO_GENERATION, Colors.Black);
             pendingGenerate = true;
         }
 
@@ -149,7 +151,7 @@ namespace TextureCombiner
             try
             {
                 generator.GenerateBitmap(config);
-                DisplayInfo(INFO_GENERATION_SUCCESS, Colors.Green);
+                DisplayLog(INFO_GENERATION_SUCCESS, Colors.Green);
             }
             catch (Exception _exception)
             {
@@ -185,7 +187,7 @@ namespace TextureCombiner
 
         private void OnBtnSaveClicked(object _sender, RoutedEventArgs _e)
         {
-            DisplayInfo(INFO_SAVE, Colors.Black);
+            DisplayLog(INFO_SAVE, Colors.Black);
             pendingSave = true;
         }
 
@@ -196,7 +198,7 @@ namespace TextureCombiner
                 io.SaveBitmap(generator.GeneratedBitmap, config,
                     Path.Combine(TxtFolderPath.Text, TxtBoxTextureName.Text) + config.TextureFormatToString(),
                     TxtFolderPath.Text);
-                DisplayInfo(INFO_SAVE_SUCCESS, Colors.Green);
+                DisplayLog(INFO_SAVE_SUCCESS, Colors.Green);
             }
             catch (TextureCombinerException _exception)
             {
@@ -214,21 +216,36 @@ namespace TextureCombiner
         /// </summary>
         void DisplayError(string _error)
         {
-            TxtError.Text = _error;
-            TxtError.Visibility = Visibility.Visible;
-            TxtInfo.Visibility = Visibility.Collapsed;
+            DisplayInfo(_error, Colors.Red);
+            ImgIconInfo.Visibility = Visibility.Visible;
+            Uri _tempUri = new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ICON_ERROR_PATH));
+            ImgIconInfo.Source = new BitmapImage(_tempUri);
+        }
+
+        void DisplayWarning(string _warning)
+        {
+            DisplayInfo(_warning, Colors.Yellow);
+            ImgIconInfo.Visibility = Visibility.Visible;
+            Uri _tempUri = new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ICON_WARNING_PATH));
+            ImgIconInfo.Source = new BitmapImage(_tempUri);
         }
 
         /// <summary>
         /// Display an information in the TextBlock TxtInfo
         /// Hide TxtError if it was previously visible
         /// </summary>
+        void DisplayLog(string _log, Color _color)
+        {
+            DisplayInfo(_log, _color);
+            ImgIconInfo.Visibility = Visibility.Collapsed;
+
+        }
+
         void DisplayInfo(string _info, Color _color)
         {
             TxtInfo.Text = _info;
             TxtInfo.Foreground = new SolidColorBrush(_color);
             TxtInfo.Visibility = Visibility.Visible;
-            TxtError.Visibility = Visibility.Collapsed;
         }
 
         private void OnBtnBrowseClicked(object _sender, RoutedEventArgs _e)
@@ -259,7 +276,10 @@ namespace TextureCombiner
 
         void UpdateAlphaChannel(AuthorizedPixelFormat _format)
         {
-            TextureChannelD.Visibility = config.UseAlpha() ? Visibility.Visible : Visibility.Collapsed;
+            bool _useAlpha = config.UseAlpha();
+            WarningAlphaTextureBorder.Visibility = _useAlpha ? Visibility.Collapsed : Visibility.Visible;
+            WarningAlphaTextureText.Visibility = _useAlpha ? Visibility.Collapsed : Visibility.Visible;
+            TextureChannelD.SetIsEnabled(_useAlpha);
         }
 
         void SetFolderPathText(string _text) => TxtFolderPath.Text = _text;
