@@ -61,7 +61,6 @@ namespace TextureCombiner
             TxtFolderPath.Text = generator.DefaultFolder;
 
             OnFolderPathChanged += SetFolderPathText; 
-            config.OnPixelFormatChanged += UpdateAlphaChannel;
             config.OnSizeExceed += DisplayWarningSizeExceed;
 
             generator.OnGenerationCompleted += (_bitmap) =>
@@ -77,7 +76,7 @@ namespace TextureCombiner
                 });
             };
 
-            UpdateAlphaChannel(AuthorizedPixelFormat.BGR24);
+            TextureChannelD.BindToBitmapConfig(config);
             InitImportTexture();
             StartTick();
         }
@@ -117,7 +116,7 @@ namespace TextureCombiner
             TextureChannelA.OnTextureImported += (_texturePath) => SetTexturePathsAt(0, _texturePath);
             TextureChannelB.OnTextureImported += (_texturePath) => SetTexturePathsAt(1, _texturePath);
             TextureChannelC.OnTextureImported += (_texturePath) => SetTexturePathsAt(2, _texturePath);
-            TextureChannelD.OnTextureImported += (_texturePath) => SetTexturePathsAt(3, _texturePath);
+            TextureChannelD.AlphaTextureChannelControl.OnTextureImported += (_texturePath) => SetTexturePathsAt(3, _texturePath);
         }
 
         /// <summary>
@@ -139,7 +138,7 @@ namespace TextureCombiner
             if(!TextureChannelA.IsValid() || !TextureChannelB.IsValid() || !TextureChannelC.IsValid())
                 return;
 
-            if (config.UseAlpha() && !TextureChannelD.IsValid())
+            if (TextureChannelD.IsAlphaChannelValid())
                 return;
 
             SetEnableButtons(false);
@@ -174,7 +173,7 @@ namespace TextureCombiner
             TextureChannelA.SetIsEnabled(_enable);
             TextureChannelB.SetIsEnabled(_enable);
             TextureChannelC.SetIsEnabled(_enable);
-            TextureChannelD.SetIsEnabled(_enable);
+            TextureChannelD.AlphaTextureChannelControl.SetIsEnabled(_enable);
             BtnSave.IsEnabled = _enable;
             BtnBrowse.IsEnabled = _enable;
         }
@@ -295,14 +294,6 @@ namespace TextureCombiner
         }
 
         void DisplayWarningSizeExceed() => DisplayWarning(WARNING_SIZE_EXCEED);
-
-        void UpdateAlphaChannel(AuthorizedPixelFormat _format)
-        {
-            bool _useAlpha = config.UseAlpha();
-            WarningAlphaTextureBorder.Visibility = _useAlpha ? Visibility.Collapsed : Visibility.Visible;
-            WarningAlphaTextureText.Visibility = _useAlpha ? Visibility.Collapsed : Visibility.Visible;
-            TextureChannelD.SetIsEnabled(_useAlpha);
-        }
 
         void SetFolderPathText(string _text) => TxtFolderPath.Text = _text;
         #endregion

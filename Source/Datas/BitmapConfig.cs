@@ -34,8 +34,6 @@ namespace TextureCombiner
     public class BitmapConfig
     {
         #region F/P
-        const int SUPPORT_ALPHA_MASK = 0b10001;
-
         public event Action<TextureFormat> OnTextureFormatChanged = null;
         public event Action<AuthorizedPixelFormat> OnPixelFormatChanged = null;
         public event Action OnSizeExceed = null;
@@ -204,11 +202,6 @@ namespace TextureCombiner
                 default:
                     return AuthorizedPixelFormat.BGR24;
             }
-        }
-
-        public bool UseAlpha()
-        {
-            return ((int)pixelFormat & SUPPORT_ALPHA_MASK) != 0;
         }
 
         public Image ConfigureImage(BitmapSource _src)

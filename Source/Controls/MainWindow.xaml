@@ -11,17 +11,15 @@
             <local:TextureChannelControl x:Name="TextureChannelA" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ChannelText="R" ForegroundText="Red"/>
             <local:TextureChannelControl x:Name="TextureChannelB" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ChannelText="G" ForegroundText="Green"/>
             <local:TextureChannelControl x:Name="TextureChannelC" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ChannelText="B" ForegroundText="Blue"/>
-            <Grid>
-                <Border x:Name="WarningAlphaTextureBorder" Background="Black" Opacity="0.5" Panel.ZIndex="5" Visibility="Collapsed"/>
-                <TextBlock x:Name="WarningAlphaTextureText" Text="Ceci est un test" Foreground="Yellow" TextAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="20, 275, 20, 0" MinHeight="150" Panel.ZIndex="5" Visibility="Collapsed"/>
-                <local:TextureChannelControl x:Name="TextureChannelD" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ChannelText="A"/>
-            </Grid>
+            <local:AlphaTextureChannel x:Name="TextureChannelD" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <Grid x:Name="PreviewGrid" Background="#FFD4D4C3" Width="160" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Image x:Name="ImgPreview" Margin="20,100,20,100" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RenderTransformOrigin="-0.953,0.621" MaxWidth="116" MaxHeight="116" Source="ImageBackground.png" MinWidth="116" MinHeight="116"/>
                 <Image x:Name="ImgBorderPreview" Height="120" Width="120" Source="BorderBox.png" Panel.ZIndex="1"/>
                 <TextBlock x:Name="TxtPreview" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Preview" VerticalAlignment="Top" Margin="50,30,50,0" Width="60" Height="20" FontSize="14" TextAlignment="Center" FontWeight="Bold"/>
-                <Image x:Name="ImgIconInfo" Height="100" Width="100" Source="BorderBox.png" Panel.ZIndex="100" Visibility="Collapsed"/>
-                <TextBlock x:Name="TxtInfo" HorizontalAlignment="Center" Margin="15,220,15,0" TextWrapping="Wrap" Text="Texture was saved !" VerticalAlignment="Top" Foreground="Black" Height="80" Width="130" FontSize="14" TextAlignment="Center" Visibility="Collapsed"/>
+                <Grid x:Name="InfoGrid" Panel.ZIndex="100" >
+                    <Image x:Name="ImgIconInfo" Height="100" Width="100" Source="BorderBox.png" Visibility="Collapsed"/>
+                    <TextBlock x:Name="TxtInfo" HorizontalAlignment="Center" Margin="15,220,15,0" TextWrapping="Wrap" Text="Texture was saved !" VerticalAlignment="Top" Foreground="Black" Height="80" Width="130" FontSize="14" TextAlignment="Center" Visibility="Collapsed" />
+                </Grid>
             </Grid>
         </UniformGrid>
         <Grid x:Name="Parameters" Background="Black" VerticalAlignment="Bottom" Height="100">

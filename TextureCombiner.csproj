@@ -85,8 +85,8 @@
     <Compile Include="Source\Controls\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Source\Controls\TextureChannels\AlphaTextureChannelControl.xaml.cs">
-      <DependentUpon>AlphaTextureChannelControl.xaml</DependentUpon>
+    <Compile Include="Source\Controls\TextureChannels\AlphaTextureChannel.xaml.cs">
+      <DependentUpon>AlphaTextureChannel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Source\Controls\TextureChannels\TextureChannelControl.xaml.cs">
       <DependentUpon>TextureChannelControl.xaml</DependentUpon>
@@ -135,7 +135,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Source\Controls\TextureChannels\AlphaTextureChannelControl.xaml">
+    <Page Include="Source\Controls\TextureChannels\AlphaTextureChannel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -155,6 +155,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Source\Controls\ImageBackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\Controls\TextureChannels\IconWarning.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
