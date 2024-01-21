@@ -21,6 +21,7 @@ namespace TextureCombiner
                      INFO_GENERATION_SUCCESS = "Successfully generate the texture !",
                      INFO_SAVE = "Saving the texture into the specified folder, please wait.",
                      INFO_SAVE_SUCCESS = "Successfully saved the texture !",
+                     WARNING_SIZE_EXCEED = "Desired size exceed textures size ! It will cause some loss of quality.",
                      ICON_ERROR_PATH = "Assets/IconError.png",
                      ICON_WARNING_PATH = "Assets/IconWarning.png";
 
@@ -61,6 +62,7 @@ namespace TextureCombiner
 
             OnFolderPathChanged += SetFolderPathText; 
             config.OnPixelFormatChanged += UpdateAlphaChannel;
+            config.OnSizeExceed += DisplayWarningSizeExceed;
 
             generator.OnGenerationCompleted += (_bitmap) =>
             {
@@ -125,7 +127,7 @@ namespace TextureCombiner
         /// <param name="_texturePath">New texture path</param>
         void SetTexturePathsAt(int _index, BitmapImage _image)
         {
-            config.Textures[_index] = _image;
+            config.SetTextureAt(_image, _index);
             UpdateTexturePreview();
         }
 
@@ -224,7 +226,7 @@ namespace TextureCombiner
 
         void DisplayWarning(string _warning)
         {
-            DisplayInfo(_warning, Colors.Yellow);
+            DisplayInfo(_warning, Colors.Orange);
             ImgIconInfo.Visibility = Visibility.Visible;
             Uri _tempUri = new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ICON_WARNING_PATH));
             ImgIconInfo.Source = new BitmapImage(_tempUri);
@@ -248,7 +250,7 @@ namespace TextureCombiner
             TxtInfo.Visibility = Visibility.Visible;
         }
 
-        private void OnBtnBrowseClicked(object _sender, RoutedEventArgs _e)
+        void OnBtnBrowseClicked(object _sender, RoutedEventArgs _e)
         {
             FolderBrowserDialog _dialog = new FolderBrowserDialog();
 
@@ -273,6 +275,26 @@ namespace TextureCombiner
             ComboBoxItem _item = CbsPixelFormat.SelectedValue as ComboBoxItem;
             config.SetPixelFormat((string)_item.Content);
         }
+
+        void OnDesiredWidthUpdated(object _sender, RoutedEventArgs _eventArgs)
+        {
+            bool _result = int.TryParse(TxtBoxWidth.Text, out int _value);
+            if (_result && _value >= 0)
+                config.SetWidth(_value);
+            else
+                TxtBoxWidth.Text = config.Width.ToString();
+        }
+
+        void OnDesiredHeightUpdated(object _sender, RoutedEventArgs _eventArgs)
+        {
+            bool _result = int.TryParse(TxtBoxHeight.Text, out int _value);
+            if (_result && _value >= 0)
+                config.SetHeight(_value);
+            else
+                TxtBoxHeight.Text = config.Height.ToString();
+        }
+
+        void DisplayWarningSizeExceed() => DisplayWarning(WARNING_SIZE_EXCEED);
 
         void UpdateAlphaChannel(AuthorizedPixelFormat _format)
         {

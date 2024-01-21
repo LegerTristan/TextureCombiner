@@ -5,6 +5,7 @@ using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using System;
 using System.IO;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace TextureCombiner.Source.Datas.Utils
@@ -22,6 +23,15 @@ namespace TextureCombiner.Source.Datas.Utils
         public static Image ToImageSharp<TPixelFormat>(this BitmapSource _src) where TPixelFormat : unmanaged, IPixel<TPixelFormat>
         {
             return Image.LoadPixelData<TPixelFormat>(_src.GetPixels(), _src.PixelWidth, _src.PixelHeight);
+        }
+
+        public static BitmapSource Resize(this BitmapSource _src, int _width, int _height)
+        {
+            if (_width <= 0 || _height <= 0 || (_width == _src.PixelWidth && _height == _src.PixelHeight))
+                return _src;
+
+            ScaleTransform _transform = new ScaleTransform((double)_width / _src.PixelWidth, (double)_height / _src.PixelHeight);
+            return new TransformedBitmap(_src, _transform);
         }
     }
 }

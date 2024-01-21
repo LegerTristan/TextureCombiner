@@ -38,8 +38,11 @@ namespace TextureCombiner
 
         public event Action<TextureFormat> OnTextureFormatChanged = null;
         public event Action<AuthorizedPixelFormat> OnPixelFormatChanged = null;
+        public event Action OnSizeExceed = null;
 
-        public BitmapSource[] Textures { get; set; }
+        BitmapSource[] textures = new BitmapSource[4];
+
+        public BitmapSource[] Textures => textures;
 
         TextureFormat textureFormat = TextureFormat.TGA;
 
@@ -50,6 +53,63 @@ namespace TextureCombiner
         public TextureFormat TextureFormat => textureFormat;
 
         public AuthorizedPixelFormat AuthorizedPixelFormat => pixelFormat;
+
+        int width = 1080;
+
+        int height = 1080;
+
+        public int Width => width;
+
+        public int Height => height;
+
+        #endregion
+
+        #region Constructor
+        public BitmapConfig(BitmapImage[] _textures, string _strFormat, string _strPixelFormat, 
+            int _quality = 255, bool _compression = false)
+        {
+            textures = _textures;
+            textureFormat = StringToTextureFormat(_strFormat);
+            pixelFormat = StringToPixelFormat(_strPixelFormat);
+        }
+        #endregion
+
+        #region Methods
+
+        public void SetTextureAt(BitmapSource _src, int _index)
+        {
+            if (_index < 0 || _index >= textures.Length)
+                return;
+
+            textures[_index] = _src;
+            if (DoesSizeExceedCurrentTextures())
+                OnSizeExceed?.Invoke();
+        }
+
+        public void SetWidth(int _newValue)
+        {
+            width = _newValue;
+            if (DoesSizeExceedCurrentTextures())
+                OnSizeExceed?.Invoke();
+        }
+
+        public void SetHeight(int _newValue)
+        {
+            height = _newValue;
+            if (DoesSizeExceedCurrentTextures())
+                OnSizeExceed?.Invoke();
+        }
+
+        bool DoesSizeExceedCurrentTextures()
+        {
+            foreach(BitmapSource _src in Textures)
+            {
+                if (_src != null && (_src.PixelWidth < width || _src.PixelHeight < height))
+                    return true;
+            }
+
+            return false;
+        }
 
         public PixelFormat GetPixelFormat()
         {
@@ -68,23 +128,8 @@ namespace TextureCombiner
             }
         }
 
-        public void SetBitmapPixelFormat(string _strFormat) => currentBitmapPixelFormat = 
+        public void SetBitmapPixelFormat(string _strFormat) => currentBitmapPixelFormat =
             StringToPixelFormat(_strFormat);
-
-        #endregion
-
-        #region Constructor
-        public BitmapConfig(BitmapImage[] _textures, string _strFormat, string _strPixelFormat, 
-            int _quality = 255, bool _compression = false)
-        {
-            Textures = _textures;
-            textureFormat = StringToTextureFormat(_strFormat);
-            pixelFormat = StringToPixelFormat(_strPixelFormat);
-        }
-        #endregion
-
-        #region Methods
-
         public void SetTextureFormat(string _strFormat)
         {
             textureFormat = StringToTextureFormat(_strFormat);

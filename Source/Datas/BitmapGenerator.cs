@@ -92,7 +92,7 @@ namespace TextureCombiner
                 _srcs[0].DpiX, _srcs[0].DpiY, _format, null);
             FillBitmap(ref _bitmap, _srcs, _config.AuthorizedPixelFormat, _config.GetNbrCanals());
 
-            return _bitmap;
+            return _bitmap.Resize(_config.Width, _config.Height);
         }
 
         /// <summary>
