@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using TextureCombiner.Source.Datas.Utils;
@@ -13,7 +13,7 @@ namespace TextureCombiner
         public byte Third { get; }
         public byte Fourth { get; }
 
-        public PixelComponents(byte _first, byte _second, byte _third, byte _fourth = 0)
+        public PixelComponents(byte _first, byte _second, byte _third, byte _fourth)
         {
             First = _first;
             Second = _second;
@@ -24,11 +24,6 @@ namespace TextureCombiner
 
     public class BitmapGenerator
     {
-        #region DefaultValues
-        public string DefaultFileName => "Default";
-        public string DefaultFolder => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "TextureCombiner");
-        #endregion
-
         #region F/P
 
         #region Delegates
@@ -117,6 +112,9 @@ namespace TextureCombiner
         void FillBitmap(ref WriteableBitmap _bitmap, BitmapSource[] _bitmaps, AuthorizedPixelFormat _format,
             int _nbrCanals)
         {
+            int _intendedNbrCoresToUse = Environment.ProcessorCount - 2;
+            _intendedNbrCoresToUse = _intendedNbrCoresToUse <= 0 ? 1 : _intendedNbrCoresToUse;
+
             try
             {
                 unsafe
@@ -131,32 +129,41 @@ namespace TextureCombiner
                     byte* _ptrDest = (byte*)_bitmap.BackBuffer;
                     byte[][] _pixelsArray = PreparePixelsArrays(_bitmaps, _bitmapHeight, _stride);
 
-                    for (int i = 0; i < _bitmapWidth; i++)
+                    int _partHeight = _bitmapHeight / _intendedNbrCoresToUse;
+
+                    Parallel.For(0, _intendedNbrCoresToUse, _partIndex =>
                     {
-                        for (int j = 0; j < _bitmapHeight; j++)
+                        int _startY = _partIndex * _partHeight;
+                        int _endY = (_partIndex + 1) * _partHeight;
+
+                        for (int i = 0; i < _bitmapWidth; i++)
                         {
-                            int _pixelIndex = (j * _stride) + (i * _nbrCanals);
+                            for (int j = _startY; j < _endY; j++)
+                            {
+                                int _pixelIndex = (j * _stride) + (i * _nbrCanals);
 
-                            byte _blue = _pixelsArray[2][_pixelIndex];
-                            byte _green = _pixelsArray[1][_pixelIndex + 1];
-                            byte _red = _pixelsArray[0][_pixelIndex + 2];
-                            byte _alpha = 0;
+                                byte _blue = _pixelsArray[2][_pixelIndex];
+                                byte _green = _pixelsArray[1][_pixelIndex + 1];
+                                byte _red = _pixelsArray[0][_pixelIndex + 2];
+                                byte _alpha = 0;
 
-                            if(_useAlpha)
-                                _alpha = _pixelsArray[3][_pixelIndex + 3];
+                                if (_useAlpha)
+                                    _alpha = _pixelsArray[3][_pixelIndex + 3];
 
-                            int _canalIndex = ((j * _bitmapWidth) + i) * _nbrCanals;
+                                int _canalIndex = ((j * _bitmapWidth) + i) * _nbrCanals;
 
-                            PixelComponents _components = ArrangeComponents(_red, _green, _blue, _alpha, _format);
+                                PixelComponents _components = ArrangeComponents(_red, _green, _blue, _alpha, _format);
 
-                            _ptrDest[_canalIndex] = _components.First;
-                            _ptrDest[_canalIndex + 1] = _components.Second;
-                            _ptrDest[_canalIndex + 2] = _components.Third;
+                                _ptrDest[_canalIndex] = _components.First;
+                                _ptrDest[_canalIndex + 1] = _components.Second;
+                                _ptrDest[_canalIndex + 2] = _components.Third;
 
-                            if (_useAlpha)
-                                _ptrDest[_canalIndex + 3] = _components.Fourth;
+                                if (_useAlpha)
+                                    _ptrDest[_canalIndex + 3] = _components.Fourth;
+                            }
                         }
-                    }
+                    });
+
                 }
             }
             finally
@@ -193,16 +200,14 @@ namespace TextureCombiner
             switch(_format)
             {
                 case AuthorizedPixelFormat.BGR24:
-                default:
-                    _pixelComps = new PixelComponents(_blue, _green, _red);
-                    break;
                 case AuthorizedPixelFormat.BGRA32:
                 case AuthorizedPixelFormat.RGBA32:
+                default:
                     _pixelComps = new PixelComponents(_blue, _green, _red, _alpha);
                     break;
                 case AuthorizedPixelFormat.RGB24:
                 case AuthorizedPixelFormat.RGB48:
-                    _pixelComps = new PixelComponents(_red, _green, _blue);
+                    _pixelComps = new PixelComponents(_red, _green, _blue, _alpha);
                     break;
             }
 

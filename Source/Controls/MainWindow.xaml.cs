@@ -5,9 +5,8 @@ using System.Windows.Media;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Threading;
+using System.Diagnostics;
 
 namespace TextureCombiner
 {
@@ -22,9 +21,11 @@ namespace TextureCombiner
                      INFO_SAVE = "Saving the texture into the specified folder, please wait.",
                      INFO_SAVE_SUCCESS = "Successfully saved the texture !",
                      WARNING_SIZE_EXCEED = "Desired size exceed textures size ! It will cause some loss of quality.",
+                     ABOUT_TEXT = ", Tristan LEGER.\nMade with WPF.\nVersion 1.1",
                      ICON_ERROR_PATH = "Assets/IconError.png",
-                     ICON_WARNING_PATH = "Assets/IconWarning.png";
-
+                     ICON_WARNING_PATH = "Assets/IconWarning.png",
+                     DOCUMENTATION_LINK = "https://1drv.ms/b/s!AjthLxKQGnIl1mVqrURPnB7aoRqo?e=eQoA5E";
+        const int RELEASE_YEAR = 2024;
 
         #region F/P
         public event Action<string> OnFolderPathChanged = null;
@@ -57,8 +58,8 @@ namespace TextureCombiner
         {
             ComboBoxItem _item = CbsFormat.SelectedValue as ComboBoxItem;
             config = new BitmapConfig(new BitmapImage[4], (string)_item.Content, (string)_item.Content);
-            TxtBoxTextureName.Text = generator.DefaultFileName;
-            TxtFolderPath.Text = generator.DefaultFolder;
+            TxtBoxTextureName.Text = io.DefaultFileName;
+            TxtFolderPath.Text = io.DefaultFolder;
 
             OnFolderPathChanged += SetFolderPathText; 
             config.OnSizeExceed += DisplayWarningSizeExceed;
@@ -105,7 +106,7 @@ namespace TextureCombiner
                 CallGenerator();
 
             if (pendingSave)
-                Save();
+                CallSave();
         }
 
         /// <summary>
@@ -138,11 +139,10 @@ namespace TextureCombiner
             if(!TextureChannelA.IsValid() || !TextureChannelB.IsValid() || !TextureChannelC.IsValid())
                 return;
 
-            if (TextureChannelD.IsAlphaChannelValid())
+            if (!TextureChannelD.IsAlphaChannelValid())
                 return;
 
             SetEnableButtons(false);
-
             DisplayLog(INFO_GENERATION, Colors.Black);
             pendingGenerate = true;
         }
@@ -192,7 +192,7 @@ namespace TextureCombiner
             pendingSave = true;
         }
 
-        void Save()
+        void CallSave()
         {
             try
             {
@@ -241,6 +241,16 @@ namespace TextureCombiner
             ImgIconInfo.Visibility = Visibility.Collapsed;
 
         }
+
+        void OnAboutClicked(object _sender, RoutedEventArgs _eventsArgs)
+        {
+            int _year = DateTime.Now.Year;
+            string _currentYear = RELEASE_YEAR == _year ? "" : "- " + _year.ToString();
+            string _finalAbout = RELEASE_YEAR.ToString() + _currentYear + ABOUT_TEXT;
+            System.Windows.MessageBox.Show(_finalAbout, "About", MessageBoxButton.OK);
+        }
+
+        void OnDocumentationClicked(object _sender, RoutedEventArgs _eventsArgs) => Process.Start(DOCUMENTATION_LINK);
 
         void DisplayInfo(string _info, Color _color)
         {

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Windows.Media.Imaging;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
@@ -15,6 +16,11 @@ namespace TextureCombiner
     /// </summary>
     public class BitmapIO
     {
+        #region Properties
+        public string DefaultFileName => "Default";
+        public string DefaultFolder => Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        #endregion
+
         #region Methods
         void CreateEnvironment(string _folder)
         {

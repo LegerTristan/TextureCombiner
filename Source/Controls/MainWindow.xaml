@@ -7,7 +7,14 @@
         mc:Ignorable="d"
         Title="TextureCombiner" Height="450" Width="800" WindowStartupLocation="CenterScreen" Background="#FFF4F4F4" RenderTransformOrigin="0.5,0.5" ResizeMode="NoResize">
     <Grid x:Name="MainGrid" Background="#FFF3F3F3">
-        <UniformGrid x:Name="TextureChannels" Rows="1" Columns="5" Margin="0,0,0,100">
+        <Menu IsMainMenu="true">
+            <MenuItem Header="Help" Height="20">
+                <MenuItem Header="Documentation" Click="OnDocumentationClicked" />
+                <MenuItem Header="About" Click="OnAboutClicked" />
+            </MenuItem>
+        </Menu>
+        <Separator x:Name="MenuSeparator" BorderBrush="Black" BorderThickness="8" Background="Black" Margin="0,20,0,0" Height="3" Panel.ZIndex="50" VerticalAlignment="Top"/>
+        <UniformGrid x:Name="TextureChannels" Rows="1" Columns="5" Margin="0,20,0,100">
             <local:TextureChannelControl x:Name="TextureChannelA" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ChannelText="R" ForegroundText="Red"/>
             <local:TextureChannelControl x:Name="TextureChannelB" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ChannelText="G" ForegroundText="Green"/>
             <local:TextureChannelControl x:Name="TextureChannelC" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ChannelText="B" ForegroundText="Blue"/>
