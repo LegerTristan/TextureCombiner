@@ -6,8 +6,7 @@
         xmlns:local="clr-namespace:TextureCombiner"
         mc:Ignorable="d"
         Title="TextureCombiner" 
-        Height="450"
-        MinHeight="420"
+        MinHeight="450"
         Width="800" 
         MinWidth="600"
         WindowStartupLocation="CenterScreen" 
@@ -33,14 +32,18 @@
             <local:TextureChannelControl x:Name="TextureChannelB" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ChannelText="G" ForegroundText="Green"/>
             <local:TextureChannelControl x:Name="TextureChannelC" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ChannelText="B" ForegroundText="Blue"/>
             <local:AlphaTextureChannel x:Name="TextureChannelD" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <Grid x:Name="PreviewGrid" Background="#FFD4D4C3" Width="160" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <Image x:Name="ImgPreview" Margin="20,100,20,100" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RenderTransformOrigin="-0.953,0.621" MaxWidth="116" MaxHeight="116" Source="ImageBackground.png" MinWidth="116" MinHeight="116"/>
-                <Image x:Name="ImgBorderPreview" Height="120" Width="120" Source="BorderBox.png" Panel.ZIndex="1"/>
-                <TextBlock x:Name="TxtPreview" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Preview" VerticalAlignment="Top" Margin="50,30,50,0" Width="60" Height="20" FontSize="14" TextAlignment="Center" FontWeight="Bold"/>
-                <Grid x:Name="InfoGrid" Panel.ZIndex="100" >
-                    <Image x:Name="ImgIconInfo" Height="100" Width="100" Source="BorderBox.png" Visibility="Collapsed"/>
-                    <TextBlock x:Name="TxtInfo" HorizontalAlignment="Center" Margin="15,220,15,0" TextWrapping="Wrap" Text="Texture was saved !" VerticalAlignment="Top" Foreground="Black" Height="80" Width="130" FontSize="14" TextAlignment="Center" Visibility="Collapsed" />
-                </Grid>
+            <Grid x:Name="PreviewGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFD4D4C3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock x:Name="TxtPreview" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,30,10,0" TextWrapping="Wrap" Text="Preview" FontSize="14" TextAlignment="Center" FontWeight="Bold"/>
+                <Image x:Name="ImgPreview" Grid.Row="1" Margin="10,10,10,10" RenderTransformOrigin="-0.953,0.621" MaxWidth="116" MaxHeight="116" Source="ImageBackground.png"/>
+                <Image x:Name="ImgBorderPreview" Grid.Row="1" Margin="10,10,10,10"  MaxHeight="120" MaxWidth="120" Source="BorderBox.png" Panel.ZIndex="1"/>
+                <Image x:Name="ImgIconInfo" Grid.Row="1" MaxWidth="90" MaxHeight="90" Source="BorderBox.png" Visibility="Collapsed"/>
+                <TextBlock x:Name="TxtInfo" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5,0,5,0" MinHeight="20" TextWrapping="Wrap" Text="Texture was saved !" Foreground="Black" FontSize="14" TextAlignment="Center" Visibility="Collapsed" />
             </Grid>
         </UniformGrid>
 
@@ -57,34 +60,34 @@
                 </Grid.RowDefinitions>
                 
                 <Grid x:Name="TextureParameters" Grid.Row="0">
-                    <TextBlock x:Name="TxtFormat" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Texture format" VerticalAlignment="Top" Foreground="White" Height="20" Margin="20,15,1,0" FontSize="14"/>
-                    <ComboBox x:Name="CbsFormat" HorizontalAlignment="Left" Margin="120,12,0,0" VerticalAlignment="Top" Width="100" Height="25" FontSize="14" SelectedIndex="0" SelectionChanged="OnTextureFormatChanged">
+                    <TextBlock x:Name="TxtFormat" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,1,0" TextWrapping="Wrap" Text="Texture format" Foreground="White" FontSize="14"/>
+                    <ComboBox x:Name="CbsFormat" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="120,0,0,0" Width="100" FontSize="14" SelectedIndex="0" SelectionChanged="OnTextureFormatChanged">
                         <ComboBoxItem Content=".tga" FontSize="14"/>
                         <ComboBoxItem Content=".png" FontSize="14"/>
                         <ComboBoxItem Content=".tiff" FontSize="14"/>
                         <ComboBoxItem Content=".bmp" FontSize="14"/>
                         <ComboBoxItem Content=".jpg" FontSize="14"/>
                     </ComboBox>
-                    <TextBlock x:Name="TxtPixelFormat" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Pixels format" VerticalAlignment="Top" Foreground="White" Height="20" Margin="0,15,200,0" FontSize="14"/>
-                    <ComboBox x:Name="CbsPixelFormat" HorizontalAlignment="Center" Margin="0,12,0,0" VerticalAlignment="Top" Width="100" Height="25" FontSize="14" SelectedIndex="0" SelectionChanged="OnPixelFormatChanged">
+                    <TextBlock x:Name="TxtPixelFormat" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" Text="Pixels format" Foreground="White" Margin="0,0,100,0" FontSize="14"/>
+                    <ComboBox x:Name="CbsPixelFormat" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="100,0,0,0" Width="100" FontSize="14" SelectedIndex="0" SelectionChanged="OnPixelFormatChanged">
                         <ComboBoxItem Content="BGR24" FontSize="14"/>
                         <ComboBoxItem Content="BGRA32" FontSize="14"/>
                         <ComboBoxItem Content="RGBA32" FontSize="14"/>
                         <ComboBoxItem Content="RGB24" FontSize="14"/>
                         <ComboBoxItem Content="RGB48" FontSize="14"/>
                     </ComboBox>
-                    <TextBlock x:Name="TxtSize" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Size" VerticalAlignment="Top" Foreground="White" Height="20" Margin="200,15,0,0" FontSize="14"/>
-                    <TextBox x:Name="TxtBoxWidth" HorizontalAlignment="Center" TextWrapping="Wrap" Text="1080" VerticalAlignment="Top" Width="40" Height="20" FontSize="14" Margin="300,15,0,0" LostFocus="OnDesiredWidthUpdated"/>
-                    <TextBlock x:Name="TxtSizeSeparation" HorizontalAlignment="Right" TextWrapping="Wrap" Width="10" Text="x" VerticalAlignment="Top" Foreground="White" Height="20" Margin="0,15,203,0" FontSize="14"/>
-                    <TextBox x:Name="TxtBoxHeight" HorizontalAlignment="Right" TextWrapping="Wrap" Text="1080" VerticalAlignment="Top" Width="40" Height="20" FontSize="14" Margin="0,15,150,0" LostFocus="OnDesiredHeightUpdated"/>
+                    <TextBlock x:Name="TxtSize" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,150,0" TextWrapping="Wrap" Text="Size" Foreground="White" FontSize="14"/>
+                    <TextBox x:Name="TxtBoxWidth" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,102,0" TextWrapping="Wrap" Text="1080" Width="40" FontSize="14" LostFocus="OnDesiredWidthUpdated"/>
+                    <TextBlock x:Name="TxtSizeSeparation" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,90,0" Width="10" TextWrapping="Wrap" Text="x" Foreground="White" FontSize="14"/>
+                    <TextBox x:Name="TxtBoxHeight" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,50,0"  Width="40" TextWrapping="Wrap" Text="1080" FontSize="14" LostFocus="OnDesiredHeightUpdated"/>
                 </Grid>
 
                 <Grid x:Name="FileParameters" Grid.Row="1">
                     <Border x:Name="BorderSettings" VerticalAlignment="Top" Height="1" BorderBrush="White" BorderThickness="1" Background="White" Panel.ZIndex="50"/>
-                    <TextBlock x:Name="TxtFolderPath" HorizontalAlignment="Center" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Bottom" Foreground="White" Width="200" Height="20" FontSize="14" Margin="0,0,100,15"/>
-                    <Button x:Name="BtnBrowse" Content="Browse" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="50" Height="30" Click="OnBtnBrowseClicked" Margin="0,0,400,10"/>
-                    <TextBlock x:Name="TxtTextureName" HorizontalAlignment="Right" TextWrapping="Wrap" Text="Name" VerticalAlignment="Bottom" FontSize="14" Foreground="White" Width="50" Height="20" Margin="0,0,280,15"/>
-                    <TextBox x:Name="TxtBoxTextureName" HorizontalAlignment="Right" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Bottom" Width="120" Height="20" FontSize="14" Margin="0,0,150,15"/>
+                    <TextBlock x:Name="TxtFolderPath" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="100,0,0,0" Width="200" TextWrapping="Wrap" Text="TextBlock" Foreground="White" FontSize="14"/>
+                    <Button x:Name="BtnBrowse" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30,10,0,10" Width="50" MinHeight="25" Content="Browse" Click="OnBtnBrowseClicked"/>
+                    <TextBlock x:Name="TxtTextureName" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,150,0" Width="50" TextWrapping="Wrap" Text="Name" FontSize="14" Foreground="White"/>
+                    <TextBox x:Name="TxtBoxTextureName" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,30,0" Width="120" TextWrapping="Wrap" Text="TextBox" FontSize="14"/>
                 </Grid>
             </Grid>
 

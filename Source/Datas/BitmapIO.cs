@@ -33,7 +33,7 @@ namespace TextureCombiner
         public void SaveBitmap(BitmapSource _bitmap, BitmapConfig _config, string _completePath, string _folderPath)
         {
             if(_bitmap == null)
-                throw new TextureCombinerException("There is no generated bitmap! You need to make one before save it.");
+                throw new TextureCombinerException("There is no generated bitmap !");
 
             CreateEnvironment(_folderPath);
 
