@@ -12,10 +12,15 @@
              AllowDrop="true"
              Drop="OnTextureChannelMouseDropped">
     <Grid x:Name="TextureChannelGrid" Background="#FFD4D4C3">
-        <Image x:Name="TextureChannelImg" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RenderTransformOrigin="-0.953,0.621" MaxWidth="116" MaxHeight="116" Source="ImageBackground.png"/>
-        <Image x:Name="TextureChannelFrame" Source="BorderBox.png" Panel.ZIndex="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxWidth="120" MaxHeight="120"/>
-        <Button x:Name="TextureChannelBtn" Content="Import" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50" Margin="0, 250, 0, 0" FontSize="14" Click="OnTextureChannelBtnClicked" Panel.ZIndex="999"/>
-        <TextBlock x:Name="TextureChannelTxt" TextWrapping="Wrap" Margin="0, 30, 0, 0" FontSize="14" TextAlignment="Center" FontWeight="Bold" Text="{Binding ChannelText}" Foreground="{Binding ForegroundText}"/>
-        <utils:OutlinedTextBlock x:Name="TextureChannelRes" Text="4096x4096" Stroke="Black" StrokeThickness="5" ForegroundColor="White" Margin="0, 90, 0, 0" FontSize="16" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Panel.ZIndex="999" Visibility="Collapsed"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="TextureChannelTxt" Grid.Row="0" Margin="0, 20, 0, 0" TextWrapping="Wrap" FontSize="14" TextAlignment="Center" FontWeight="Bold" Text="{Binding ChannelText}" Foreground="{Binding ForegroundText}"/>
+        <Image x:Name="TextureChannelImg" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10, 10, 10, 10" MaxWidth="116" MaxHeight="116" RenderTransformOrigin="-0.953,0.621" Source="ImageBackground.png"/>
+        <Image x:Name="TextureChannelFrame" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10, 0, 10, 0" MaxWidth="120" MaxHeight="120" Source="BorderBox.png" Panel.ZIndex="1"/>
+        <utils:OutlinedTextBlock x:Name="TextureChannelRes" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, 90, 0, 0" Text="4096x4096" Stroke="Black" StrokeThickness="5" ForegroundColor="White" FontSize="16" TextAlignment="Center" Panel.ZIndex="999" Visibility="Collapsed"/>
+        <Button x:Name="TextureChannelBtn" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 0, 0, 20" Width="50" Content="Import" FontSize="14" Click="OnTextureChannelBtnClicked" Panel.ZIndex="999"/>
     </Grid>
 </UserControl>
