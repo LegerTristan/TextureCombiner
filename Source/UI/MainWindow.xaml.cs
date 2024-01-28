@@ -15,8 +15,7 @@ namespace TextureCombiner
     /// </summary>
     public partial class MainWindow : Window
     {
-        const string WINDOW_TITLE = "TextureCombiner",
-                     INFO_GENERATION = "Generating the bitmap, please wait.",
+        const string INFO_GENERATION = "Generating the bitmap, please wait.",
                      INFO_GENERATION_SUCCESS = "Successfully generate the texture !",
                      INFO_SAVE = "Saving the texture into the specified folder, please wait.",
                      INFO_SAVE_SUCCESS = "Successfully saved the texture !",
@@ -28,16 +27,27 @@ namespace TextureCombiner
         const int RELEASE_YEAR = 2024;
 
         #region F/P
-        public event Action<string> OnFolderPathChanged = null;
 
         DispatcherTimer timerTick;
 
         BitmapGenerator generator = new BitmapGenerator();
         BitmapIO io = new BitmapIO();
-        BitmapConfig config;
 
         bool pendingGenerate = false,
              pendingSave = false;
+
+        BitmapConfig ConfigInstance => BitmapConfig.Instance;
+
+        string FormattedPath
+        {
+            get
+            {
+                string _folderPath = FileParametersPart.TxtFolderPath.Text,
+                       _textureName = FileParametersPart.TxtBoxTextureName.Text;
+                
+                return Path.Combine(_folderPath, _textureName) + ConfigInstance.TextureFormatToString();
+            }
+        }
         #endregion
 
         #region Constructor
@@ -56,39 +66,22 @@ namespace TextureCombiner
         /// </summary>
         void Init()
         {
-            ComboBoxItem _item = CbsFormat.SelectedValue as ComboBoxItem;
-            config = new BitmapConfig(new BitmapImage[4], (string)_item.Content, (string)_item.Content);
-            TxtBoxTextureName.Text = io.DefaultFileName;
-            TxtFolderPath.Text = io.DefaultFolder;
-
-            OnFolderPathChanged += SetFolderPathText; 
-            config.OnSizeExceed += DisplayWarningSizeExceed;
+            FileParametersPart.InitTexts(io.DefaultFolder, io.DefaultFileName);
+            ConfigInstance.OnSizeExceed += DisplayWarningSizeExceed;
 
             generator.OnGenerationCompleted += (_bitmap) =>
             {
                 Dispatcher.Invoke(() =>
                 {
-                    SetTitle(WINDOW_TITLE);
                     _bitmap.Freeze();
                     SetBitmapPreview(_bitmap);
-                    ComboBoxItem _pixelFormatItem = CbsPixelFormat.SelectedValue as ComboBoxItem;
-                    config.SetBitmapPixelFormat((string)_pixelFormatItem.Content);;
+                    ConfigInstance.UpdateBitmapPixelFormat();
                     SetEnableButtons(true);
                 });
             };
 
-            TextureChannelD.BindToBitmapConfig(config);
             InitImportTexture();
             StartTick();
-        }
-
-        /// <summary>
-        /// Set title of the window
-        /// </summary>
-        /// <param name="_message">New title</param>
-        void SetTitle(string _message)
-        {
-            Title = _message;
         }
 
         void StartTick()
@@ -127,7 +120,7 @@ namespace TextureCombiner
         /// <param name="_texturePath">New texture path</param>
         void SetTexturePathsAt(int _index, BitmapImage _image)
         {
-            config.SetTextureAt(_image, _index);
+            ConfigInstance.SetTextureAt(_image, _index);
             UpdateTexturePreview();
         }
 
@@ -151,7 +144,7 @@ namespace TextureCombiner
         {
             try
             {
-                generator.GenerateBitmap(config);
+                generator.GenerateBitmap();
                 DisplayLog(INFO_GENERATION_SUCCESS, Colors.Green);
             }
             catch (Exception _exception)
@@ -175,7 +168,7 @@ namespace TextureCombiner
             TextureChannelC.SetIsEnabled(_enable);
             TextureChannelD.AlphaTextureChannelControl.SetIsEnabled(_enable);
             BtnSave.IsEnabled = _enable;
-            BtnBrowse.IsEnabled = _enable;
+            FileParametersPart.BtnBrowse.IsEnabled = _enable;
         }
 
         /// <summary>
@@ -196,9 +189,10 @@ namespace TextureCombiner
         {
             try
             {
-                io.SaveBitmap(generator.GeneratedBitmap, config,
-                    Path.Combine(TxtFolderPath.Text, TxtBoxTextureName.Text) + config.TextureFormatToString(),
-                    TxtFolderPath.Text);
+                string _folderPath = FileParametersPart.TxtFolderPath.Text,
+                       _textureName = FileParametersPart.TxtBoxTextureName.Text;
+
+                io.SaveBitmap(generator.GeneratedBitmap, FormattedPath, _folderPath);
                 DisplayLog(INFO_SAVE_SUCCESS, Colors.Green);
             }
             catch (TextureCombinerException _exception)
@@ -242,6 +236,15 @@ namespace TextureCombiner
 
         }
 
+        void DisplayInfo(string _info, Color _color)
+        {
+            TxtInfo.Text = _info;
+            TxtInfo.Foreground = new SolidColorBrush(_color);
+            TxtInfo.Visibility = Visibility.Visible;
+        }
+
+        void DisplayWarningSizeExceed() => DisplayWarning(WARNING_SIZE_EXCEED);
+
         void OnAboutClicked(object _sender, RoutedEventArgs _eventsArgs)
         {
             int _year = DateTime.Now.Year;
@@ -251,61 +254,6 @@ namespace TextureCombiner
         }
 
         void OnDocumentationClicked(object _sender, RoutedEventArgs _eventsArgs) => Process.Start(DOCUMENTATION_LINK);
-
-        void DisplayInfo(string _info, Color _color)
-        {
-            TxtInfo.Text = _info;
-            TxtInfo.Foreground = new SolidColorBrush(_color);
-            TxtInfo.Visibility = Visibility.Visible;
-        }
-
-        void OnBtnBrowseClicked(object _sender, RoutedEventArgs _e)
-        {
-            FolderBrowserDialog _dialog = new FolderBrowserDialog();
-
-            if (_dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                OnFolderPathChanged?.Invoke(_dialog.SelectedPath);
-        }
-
-        void OnTextureFormatChanged(object _sender, SelectionChangedEventArgs _eventArgs)
-        {
-            if (config == null)
-                return;
-
-            ComboBoxItem _item = CbsFormat.SelectedValue as ComboBoxItem;
-            config.SetTextureFormat((string)_item.Content);
-        }
-
-        void OnPixelFormatChanged(object _sender, SelectionChangedEventArgs _eventArgs)
-        {
-            if (config == null)
-                return;
-
-            ComboBoxItem _item = CbsPixelFormat.SelectedValue as ComboBoxItem;
-            config.SetPixelFormat((string)_item.Content);
-        }
-
-        void OnDesiredWidthUpdated(object _sender, RoutedEventArgs _eventArgs)
-        {
-            bool _result = int.TryParse(TxtBoxWidth.Text, out int _value);
-            if (_result && _value >= 0)
-                config.SetWidth(_value);
-            else
-                TxtBoxWidth.Text = config.Width.ToString();
-        }
-
-        void OnDesiredHeightUpdated(object _sender, RoutedEventArgs _eventArgs)
-        {
-            bool _result = int.TryParse(TxtBoxHeight.Text, out int _value);
-            if (_result && _value >= 0)
-                config.SetHeight(_value);
-            else
-                TxtBoxHeight.Text = config.Height.ToString();
-        }
-
-        void DisplayWarningSizeExceed() => DisplayWarning(WARNING_SIZE_EXCEED);
-
-        void SetFolderPathText(string _text) => TxtFolderPath.Text = _text;
         #endregion
     }
 }

@@ -8,6 +8,8 @@ using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.Formats.Tga;
 using SixLabors.ImageSharp.Formats.Tiff;
+using TextureCombiner.Source.Datas.EncodingOptions;
+using TextureCombiner.Source.Datas.Utils;
 
 namespace TextureCombiner
 {
@@ -16,6 +18,15 @@ namespace TextureCombiner
     /// </summary>
     public class BitmapIO
     {
+        IEncodingOptions[] encodingOptions = new IEncodingOptions[]
+        {
+            new BmpEncodingOptions(),
+            new JpgEncodingOptions(),
+            new PngEncodingOptions(),
+            new TgaEncodingOptions(),
+            new TiffEncodingOptions()
+        };
+
         #region Properties
         public string DefaultFileName => "Default";
         public string DefaultFolder => Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -30,11 +41,12 @@ namespace TextureCombiner
             Directory.CreateDirectory(_folder);
         }
 
-        public void SaveBitmap(BitmapSource _bitmap, BitmapConfig _config, string _completePath, string _folderPath)
+        public void SaveBitmap(BitmapSource _bitmap, string _completePath, string _folderPath)
         {
             if(_bitmap == null)
                 throw new TextureCombinerException("There is no generated bitmap !");
 
+            BitmapConfig _config = BitmapConfig.Instance;
             CreateEnvironment(_folderPath);
 
             IImageEncoder _encoder = GetEncoder(_config.TextureFormat);
@@ -58,26 +70,10 @@ namespace TextureCombiner
         IImageEncoder GetEncoder(TextureFormat _format)
         {
             IImageEncoder _encoder = null;
-
-            switch(_format)
+            foreach (IEncodingOptions _options in encodingOptions)
             {
-                case TextureFormat.PNG:
-                    _encoder = new PngEncoder();
-                    break;
-                case TextureFormat.TIFF:
-                    _encoder = new TiffEncoder();
-                    break;
-                case TextureFormat.TGA:
-                    _encoder = new TgaEncoder();
-                    break;
-                case TextureFormat.BMP:
-                    _encoder = new BmpEncoder();
-                    break;
-                case TextureFormat.JPG:
-                    _encoder = new JpegEncoder();
-                    break;
-                default:
-                    break;
+                if (_options != null && _options.GetEncodedFormat() == _format)
+                    _encoder = _options.GetEncoder();
             }
 
             return _encoder;

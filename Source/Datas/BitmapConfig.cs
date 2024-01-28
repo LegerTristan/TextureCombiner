@@ -12,11 +12,11 @@ namespace TextureCombiner
     /// </summary>
     public enum TextureFormat
     {
-        PNG,
-        TGA,
-        TIFF,
-        BMP,
-        JPG
+        PNG     = 1,
+        TGA     = 2,
+        TIFF    = 4,
+        BMP     = 8,
+        JPG     = 16
     }
 
     public enum AuthorizedPixelFormat
@@ -31,7 +31,7 @@ namespace TextureCombiner
     /// <summary>
     /// Parameters to config a bitmap such as format, size, and use base texture's path.
     /// </summary>
-    public class BitmapConfig
+    public class BitmapConfig : SingletonTemplate<BitmapConfig>
     {
         #region F/P
         public event Action<TextureFormat> OnTextureFormatChanged = null;
@@ -60,16 +60,6 @@ namespace TextureCombiner
 
         public int Height => height;
 
-        #endregion
-
-        #region Constructor
-        public BitmapConfig(BitmapImage[] _textures, string _strFormat, string _strPixelFormat, 
-            int _quality = 255, bool _compression = false)
-        {
-            textures = _textures;
-            textureFormat = StringToTextureFormat(_strFormat);
-            pixelFormat = StringToPixelFormat(_strPixelFormat);
-        }
         #endregion
 
         #region Methods
@@ -109,6 +99,8 @@ namespace TextureCombiner
             return false;
         }
 
+        public void UpdateBitmapPixelFormat() => currentBitmapPixelFormat = pixelFormat;
+
         public PixelFormat GetPixelFormat()
         {
             switch (pixelFormat)
@@ -126,8 +118,6 @@ namespace TextureCombiner
             }
         }
 
-        public void SetBitmapPixelFormat(string _strFormat) => currentBitmapPixelFormat =
-            StringToPixelFormat(_strFormat);
         public void SetTextureFormat(string _strFormat)
         {
             textureFormat = StringToTextureFormat(_strFormat);

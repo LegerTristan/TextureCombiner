@@ -61,15 +61,17 @@ namespace TextureCombiner
         /// Generate a <see cref="Bitmap"/> based on a <see cref="BitmapConfig"/>.
         /// </summary>
         /// <param name="_config">Config for the <see cref="Bitmap"/> to generate</param>
-        public void GenerateBitmap(BitmapConfig _config)
+        public void GenerateBitmap()
         {
             OnGenerationStart?.Invoke();
-            generatedBitmap = CreateBitmap(_config);
+            generatedBitmap = CreateBitmap();
             OnGenerationCompleted?.Invoke(generatedBitmap);
         }
 
-        BitmapSource CreateBitmap(BitmapConfig _config)
+        BitmapSource CreateBitmap()
         {
+            BitmapConfig _config = BitmapConfig.Instance;
+
             if (!IsBitmapsValid(_config.Textures, _config.GetNbrCanals()))
                 throw new TextureCombinerException("RGB is invalid ! Be sure that every texture has the same resolution.");
 

@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace TextureCombiner
+namespace TextureCombiner.UI.Controls
 {
     /// <summary>
     /// Logique d'interaction pour AlphaTextureChannel.xaml
@@ -17,14 +17,14 @@ namespace TextureCombiner
         public AlphaTextureChannel()
         {
             InitializeComponent();
+            BindToBitmapConfig();
         }
 
         public bool IsAlphaChannelValid() => UseAlpha ? AlphaTextureChannelControl.IsValid() : true;
 
-        public void BindToBitmapConfig(BitmapConfig _config)
+        public void BindToBitmapConfig()
         {
-            if (_config == null)
-                return;
+            BitmapConfig _config = BitmapConfig.Instance;
 
             _config.OnTextureFormatChanged += CheckAlphaChannelSupportFromTexture;
             _config.OnPixelFormatChanged += CheckAlphaChannelSupportFromPixel;

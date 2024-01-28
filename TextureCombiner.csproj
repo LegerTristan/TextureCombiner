@@ -82,13 +82,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Source\Controls\MainWindow.xaml.cs">
+    <Compile Include="Source\Datas\EncodingOptions\JpgEncodingOptions.cs" />
+    <Compile Include="Source\Datas\EncodingOptions\PngEncodingOptions.cs" />
+    <Compile Include="Source\Datas\EncodingOptions\TiffEncodingOptions.cs" />
+    <Compile Include="Source\Datas\EncodingOptions\TgaEncodingOptions.cs" />
+    <Compile Include="Source\Datas\EncodingOptions\BmpEncodingOptions.cs" />
+    <Compile Include="Source\Datas\Utils\EncodingOptions.cs" />
+    <Compile Include="Source\Datas\Utils\SingletonTemplate.cs" />
+    <Compile Include="Source\UI\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Source\Controls\TextureChannels\AlphaTextureChannel.xaml.cs">
+    <Compile Include="Source\UI\Controls\AlphaTextureChannel.xaml.cs">
       <DependentUpon>AlphaTextureChannel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Source\Controls\TextureChannels\TextureChannelControl.xaml.cs">
+    <Compile Include="Source\UI\Controls\TextureChannelControl.xaml.cs">
       <DependentUpon>TextureChannelControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Source\Datas\BitmapConfig.cs" />
@@ -101,6 +108,15 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Source\UI\Parameters\EncodingParameters.xaml.cs">
+      <DependentUpon>EncodingParameters.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Source\UI\Parameters\FileParameters.xaml.cs">
+      <DependentUpon>FileParameters.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Source\UI\Parameters\TextureParameters.xaml.cs">
+      <DependentUpon>TextureParameters.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -131,33 +147,45 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Source\Controls\MainWindow.xaml">
+    <Page Include="Source\UI\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Source\Controls\TextureChannels\AlphaTextureChannel.xaml">
+    <Page Include="Source\UI\Controls\AlphaTextureChannel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Source\Controls\TextureChannels\TextureChannelControl.xaml">
+    <Page Include="Source\UI\Controls\TextureChannelControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Source\UI\Parameters\EncodingParameters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Source\UI\Parameters\FileParameters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Source\UI\Parameters\TextureParameters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Source\Controls\TextureChannels\BorderBox.png" />
+    <Resource Include="Source\UI\Controls\BorderBox.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Source\Controls\TextureChannels\ImageBackground.png" />
+    <Resource Include="Source\UI\Controls\ImageBackground.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Source\Controls\BorderBox.png" />
+    <Resource Include="Source\UI\BorderBox.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Source\Controls\ImageBackground.png" />
+    <Resource Include="Source\UI\ImageBackground.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Source\Controls\TextureChannels\IconWarning.png" />
+    <Resource Include="Source\UI\Controls\IconWarning.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

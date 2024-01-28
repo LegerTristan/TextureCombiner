@@ -7,7 +7,7 @@ using Microsoft.Win32;
 using TextureCombiner.Source.Datas.Utils;
 
 
-namespace TextureCombiner
+namespace TextureCombiner.UI.Controls
 {
     /// <summary>
     /// Logique d'interaction pour TextureChannelControl.xaml
