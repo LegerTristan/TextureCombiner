@@ -10,6 +10,7 @@ using SixLabors.ImageSharp.Formats.Tga;
 using SixLabors.ImageSharp.Formats.Tiff;
 using TextureCombiner.Source.Datas.EncodingOptions;
 using TextureCombiner.Source.Datas.Utils;
+using TextureCombiner.UI.Controls;
 
 namespace TextureCombiner
 {
@@ -18,19 +19,24 @@ namespace TextureCombiner
     /// </summary>
     public class BitmapIO
     {
-        IEncodingOptions[] encodingOptions = new IEncodingOptions[]
-        {
-            new BmpEncodingOptions(),
-            new JpgEncodingOptions(),
-            new PngEncodingOptions(),
-            new TgaEncodingOptions(),
-            new TiffEncodingOptions()
-        };
+        IEncodingOptions[] encodingOptions = null;
 
         #region Properties
         public string DefaultFileName => "Default";
         public string DefaultFolder => Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         #endregion
+
+        public BitmapIO(EncodingParameters _encodingParameters)
+        {
+            encodingOptions = new IEncodingOptions[]
+            {
+                new BmpEncodingOptions(),
+                new JpgEncodingOptions(_encodingParameters),
+                new PngEncodingOptions(_encodingParameters),
+                new TgaEncodingOptions(_encodingParameters),
+                new TiffEncodingOptions(_encodingParameters)
+            };
+        }
 
         #region Methods
         void CreateEnvironment(string _folder)

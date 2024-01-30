@@ -31,7 +31,7 @@ namespace TextureCombiner
         DispatcherTimer timerTick;
 
         BitmapGenerator generator = new BitmapGenerator();
-        BitmapIO io = new BitmapIO();
+        BitmapIO io = null;
 
         bool pendingGenerate = false,
              pendingSave = false;
@@ -43,7 +43,7 @@ namespace TextureCombiner
             get
             {
                 string _folderPath = FileParametersPart.TxtFolderPath.Text,
-                       _textureName = FileParametersPart.TxtBoxTextureName.Text;
+                       _textureName = FileParametersPart.FileName;
                 
                 return Path.Combine(_folderPath, _textureName) + ConfigInstance.TextureFormatToString();
             }
@@ -66,6 +66,7 @@ namespace TextureCombiner
         /// </summary>
         void Init()
         {
+            io = new BitmapIO(EncodingParametersPart);
             FileParametersPart.InitTexts(io.DefaultFolder, io.DefaultFileName);
             ConfigInstance.OnSizeExceed += DisplayWarningSizeExceed;
 
@@ -136,7 +137,7 @@ namespace TextureCombiner
                 return;
 
             SetEnableButtons(false);
-            DisplayLog(INFO_GENERATION, Colors.Black);
+            DisplayLog(INFO_GENERATION, Colors.White);
             pendingGenerate = true;
         }
 
@@ -181,7 +182,7 @@ namespace TextureCombiner
 
         private void OnBtnSaveClicked(object _sender, RoutedEventArgs _e)
         {
-            DisplayLog(INFO_SAVE, Colors.Black);
+            DisplayLog(INFO_SAVE, Colors.White);
             pendingSave = true;
         }
 

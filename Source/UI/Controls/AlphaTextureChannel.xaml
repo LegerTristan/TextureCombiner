@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <local:TextureChannelControl x:Name="AlphaTextureChannelControl" ChannelText="A"/>
+        <local:TextureChannelControl x:Name="AlphaTextureChannelControl" ChannelText="A" ForegroundText="White"/>
         <Border x:Name="WarningAlphaTextureBorder" Background="Black" Opacity="0.5" Panel.ZIndex="5" Visibility="Collapsed"/>
         <Grid Panel.ZIndex="10">
             <Grid.RowDefinitions>

@@ -38,6 +38,8 @@ namespace TextureCombiner
         public event Action<AuthorizedPixelFormat> OnPixelFormatChanged = null;
         public event Action OnSizeExceed = null;
 
+        public const int MAX_SIZE = 8192;
+
         BitmapSource[] textures = new BitmapSource[4];
 
         public BitmapSource[] Textures => textures;

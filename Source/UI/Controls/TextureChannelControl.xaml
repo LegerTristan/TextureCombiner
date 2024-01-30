@@ -10,7 +10,7 @@
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
              AllowDrop="true"
              Drop="OnTextureChannelMouseDropped">
-    <Grid x:Name="TextureChannelGrid" Background="#FFD4D4C3">
+    <Grid x:Name="TextureChannelGrid"  Background="#FF5A4A38">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
             <RowDefinition Height="3*" />

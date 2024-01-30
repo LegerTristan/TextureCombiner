@@ -1,5 +1,6 @@
 ﻿using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.Formats.Bmp;
+using SixLabors.ImageSharp.Processing.Processors.Quantization;
 using TextureCombiner.Source.Datas.Utils;
 
 namespace TextureCombiner.Source.Datas.EncodingOptions

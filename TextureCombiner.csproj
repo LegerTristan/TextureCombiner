@@ -187,5 +187,8 @@
   <ItemGroup>
     <Resource Include="Source\UI\Controls\IconWarning.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\UI\TextureCombinerBackground.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

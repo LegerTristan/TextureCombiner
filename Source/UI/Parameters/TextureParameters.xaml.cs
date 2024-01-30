@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
 namespace TextureCombiner.UI.Controls
@@ -41,7 +42,7 @@ namespace TextureCombiner.UI.Controls
         void OnDesiredWidthUpdated(object _sender, RoutedEventArgs _eventArgs)
         {
             bool _result = int.TryParse(TxtBoxWidth.Text, out int _value);
-            if (_result && _value >= 0)
+            if (_result && _value >= 0 && _value <= BitmapConfig.MAX_SIZE)
                 ConfigInstance.SetWidth(_value);
             else
                 TxtBoxWidth.Text = ConfigInstance.Width.ToString();
@@ -50,7 +51,7 @@ namespace TextureCombiner.UI.Controls
         void OnDesiredHeightUpdated(object _sender, RoutedEventArgs _eventArgs)
         {
             bool _result = int.TryParse(TxtBoxHeight.Text, out int _value);
-            if (_result && _value >= 0)
+            if (_result && _value >= 0 && _value <= BitmapConfig.MAX_SIZE)
                 ConfigInstance.SetHeight(_value);
             else
                 TxtBoxHeight.Text = ConfigInstance.Height.ToString();
