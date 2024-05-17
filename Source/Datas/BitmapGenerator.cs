@@ -38,15 +38,6 @@ namespace TextureCombiner
         public event Action<BitmapSource> OnGenerationCompleted = null;
         #endregion
 
-        #region Constants
-        const int NUMBER_CHANNELS_RGB = 3;
-        const int NUMBER_CHANNELS_ARGB = 4;
-
-        const int GREEN_CANAL_OFFSET = 8;
-        const int RED_CANAL_OFFSET = 16;
-        const int ALPHA_CANAL_OFFSET = 24;
-        #endregion
-
         /// <summary>
         /// <see cref="Bitmap"/> generated after adding at least 3 textures in the program
         /// </summary>
@@ -98,13 +89,17 @@ namespace TextureCombiner
         /// <param name="_bitmaps"><see cref="Bitmap"/> array</param>
         /// <param name="_length">Number of textures to check, for RGB and ARGB</param>
         /// <returns></returns>
-        bool IsBitmapsValid(BitmapSource[] _bitmaps, int _length = NUMBER_CHANNELS_RGB)
+        bool IsBitmapsValid(BitmapSource[] _bitmaps, int _length)
         {
-            int _width = _bitmaps[0].PixelWidth, _height = _bitmaps[0].PixelHeight;
+            if(_bitmaps.Length < _length || _bitmaps[0] == null)
+                return false;
 
-            for (int i = 0; i < _length; ++i)
+            int _width = _bitmaps[0].PixelWidth, 
+                _height = _bitmaps[0].PixelHeight;
+
+            for (int i = 1; i < _length; ++i)
             {
-                if (_bitmaps[i].PixelWidth != _width || _bitmaps[i].PixelHeight != _height)
+                if (_bitmaps[i] == null || _bitmaps[i].PixelWidth != _width || _bitmaps[i].PixelHeight != _height)
                     return false;
             }
 

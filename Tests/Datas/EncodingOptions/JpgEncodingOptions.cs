@@ -13,8 +13,7 @@ namespace TextureCombiner.Source.Datas.EncodingOptions
 
         public JpgEncodingOptions(EncodingParameters _encodingParameters)
         {
-            if(_encodingParameters != null)
-                _encodingParameters.OnQualityUpdated += SetQuality;
+            _encodingParameters.OnQualityUpdated += SetQuality;
         }
 
         public IImageEncoder GetEncoder()

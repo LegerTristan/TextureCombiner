@@ -27,7 +27,10 @@ namespace TextureCombiner.Source.Datas.Utils
 
         public static BitmapSource Resize(this BitmapSource _src, int _width, int _height)
         {
-            if (_width <= 0 || _height <= 0 || (_width == _src.PixelWidth && _height == _src.PixelHeight))
+            if (_width <= 0 || _height <= 0)
+                throw new TextureCombinerException("Can not resize the texture : width or height is invalid !");
+
+            if (_width == _src.PixelWidth && _height == _src.PixelHeight)
                 return _src;
 
             ScaleTransform _transform = new ScaleTransform((double)_width / _src.PixelWidth, (double)_height / _src.PixelHeight);

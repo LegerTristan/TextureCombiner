@@ -17,9 +17,6 @@ namespace TextureCombiner.Source.Datas.EncodingOptions
 
         public TiffEncodingOptions(EncodingParameters _encodingParameters)
         {
-            if (_encodingParameters == null)
-                return;
-
             _encodingParameters.OnCompressionLevelUpdated += SetCompressionLevel;
             _encodingParameters.OnTIFFCompressionChanged += SetCompressionUsed;
         }

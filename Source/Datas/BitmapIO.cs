@@ -3,11 +3,6 @@ using System.IO;
 using System.Windows.Media.Imaging;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
-using SixLabors.ImageSharp.Formats.Bmp;
-using SixLabors.ImageSharp.Formats.Jpeg;
-using SixLabors.ImageSharp.Formats.Png;
-using SixLabors.ImageSharp.Formats.Tga;
-using SixLabors.ImageSharp.Formats.Tiff;
 using TextureCombiner.Source.Datas.EncodingOptions;
 using TextureCombiner.Source.Datas.Utils;
 using TextureCombiner.UI.Controls;
@@ -22,7 +17,7 @@ namespace TextureCombiner
         IEncodingOptions[] encodingOptions = null;
 
         #region Properties
-        public string DefaultFileName => "Default";
+        public string DefaultFileName => "Hehe";
         public string DefaultFolder => Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         #endregion
 

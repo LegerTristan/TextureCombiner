@@ -13,8 +13,7 @@ namespace TextureCombiner.Source.Datas.EncodingOptions
 
         public PngEncodingOptions(EncodingParameters _encodingParameters)
         {
-            if (_encodingParameters != null)
-                _encodingParameters.OnCompressionLevelUpdated += SetCompressionLevel;
+            _encodingParameters.OnCompressionLevelUpdated += SetCompressionLevel;
         }
 
         public IImageEncoder GetEncoder()

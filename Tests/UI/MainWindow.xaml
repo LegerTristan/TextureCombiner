@@ -1,0 +1,78 @@
+﻿<Window x:Class="TextureCombiner.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:TextureCombiner.UI.Controls"
+        mc:Ignorable="d"
+        Title="TextureCombiner" 
+        Height="600"
+        MinHeight="500"
+        Width="800" 
+        MinWidth="800"
+        WindowStartupLocation="CenterScreen" 
+        Background="#FFF4F4F4" 
+        RenderTransformOrigin="0.5,0.5" 
+        ResizeMode="CanResizeWithGrip">
+    <Grid x:Name="MainGrid" Background="#FFF3F3F3">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <Menu IsMainMenu="true">
+            <MenuItem Header="Help" Height="20">
+                <MenuItem Header="Documentation" Click="OnDocumentationClicked" />
+                <MenuItem Header="About" Click="OnAboutClicked" />
+            </MenuItem>
+        </Menu>
+        <Separator x:Name="MenuSeparator" BorderBrush="Black" BorderThickness="8" Background="Black" Margin="0,20,0,0" Height="3" Panel.ZIndex="50" VerticalAlignment="Top"/>
+
+        <UniformGrid x:Name="TextureChannels" Grid.Row="0" Rows="1" Columns="5" Margin="0, 20, 0, 0">
+            <controls:TextureChannelControl x:Name="TextureChannelA" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,-1,0" ChannelText="R" ForegroundText="Red"/>
+            <controls:TextureChannelControl x:Name="TextureChannelB" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="-1,0,-1,0" ChannelText="G" ForegroundText="Green"/>
+            <controls:TextureChannelControl x:Name="TextureChannelC" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="-1,0,-1,0" ChannelText="B" ForegroundText="Blue"/>
+            <controls:AlphaTextureChannel x:Name="TextureChannelD" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="-1,0,-1,0" />
+            <Grid x:Name="PreviewGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="-1,0,0,0" Background="#FF5A4A38" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock x:Name="TxtPreview" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,30,10,0" TextWrapping="Wrap" Text="Preview" FontSize="14" TextAlignment="Center" FontWeight="Bold" Foreground="White"/>
+                <Image x:Name="ImgPreview" Grid.Row="1" Margin="10,10,10,10" RenderTransformOrigin="-0.953,0.621" MaxWidth="116" MaxHeight="116" Source="ImageBackground.png"/>
+                <Image x:Name="ImgBorderPreview" Grid.Row="1" Margin="10,10,10,10"  MaxHeight="120" MaxWidth="120" Source="BorderBox.png" Panel.ZIndex="1"/>
+                <Image x:Name="ImgIconInfo" Grid.Row="1" MaxWidth="90" MaxHeight="90" Source="BorderBox.png" Visibility="Collapsed"/>
+                <TextBlock x:Name="TxtInfo" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5,0,5,0" MinHeight="20" TextWrapping="Wrap" Text="Texture was saved !" Foreground="Black" FontSize="14" TextAlignment="Center" Visibility="Collapsed" />
+            </Grid>
+        </UniformGrid>
+
+        <Image Grid.Row="1" Stretch="Fill" Source="TextureCombinerBackground.jpg"/>
+        <Grid x:Name="UIPart" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="9*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid x:Name="Parameters" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <controls:TextureParameters x:Name="TextureParametersPart" Grid.Row="0"/>
+                <Rectangle x:Name="BorderFirst" Grid.Row="1" VerticalAlignment="Top" Stroke="#FF6E5E3B" Height="1" StrokeThickness="1" StrokeDashArray="4 4" Panel.ZIndex="50"/>
+                <controls:EncodingParameters x:Name="EncodingParametersPart" Grid.Row="1"/>
+                <Rectangle x:Name="BorderSecond" Grid.Row="2" VerticalAlignment="Top" Stroke="#FF6E5E3B" Height="1" StrokeThickness="1" StrokeDashArray="4 4" Panel.ZIndex="50"/>
+                <controls:FileParameters x:Name="FileParametersPart" Grid.Row="2"/>
+            </Grid>
+
+            <Grid x:Name="SaveBtn" Grid.Column="1">
+                <Rectangle x:Name="BorderSave" HorizontalAlignment="Left" Stroke="#FF6E5E3B" Width="1" StrokeThickness="1" StrokeDashArray="4 4" Panel.ZIndex="50"/>
+                <Button x:Name="BtnSave" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" Content="Save" FontSize="14" Click="OnBtnSaveClicked"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

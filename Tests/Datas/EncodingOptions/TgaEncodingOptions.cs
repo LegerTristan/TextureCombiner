@@ -13,8 +13,7 @@ namespace TextureCombiner.Source.Datas.EncodingOptions
 
         public TgaEncodingOptions(EncodingParameters _encodingParameters)
         {
-            if (_encodingParameters != null)
-                _encodingParameters.OnTGACompressionChanged += SetCompressionUsed;
+            _encodingParameters.OnTGACompressionChanged += SetCompressionUsed;
         }
 
         public IImageEncoder GetEncoder()
