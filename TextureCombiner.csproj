@@ -188,9 +188,6 @@
     <Resource Include="Source\UI\Controls\ImageBackground.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Source\UI\BorderBox.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Source\UI\ImageBackground.png" />
   </ItemGroup>
   <ItemGroup>
@@ -199,7 +196,9 @@
   <ItemGroup>
     <Resource Include="Source\UI\TextureCombinerBackground.jpg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Source\UI\BorderBox.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
