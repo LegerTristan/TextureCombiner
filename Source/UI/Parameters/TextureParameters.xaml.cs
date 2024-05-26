@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -41,20 +43,26 @@ namespace TextureCombiner.UI.Controls
 
         void OnDesiredWidthUpdated(object _sender, RoutedEventArgs _eventArgs)
         {
-            bool _result = int.TryParse(TxtBoxWidth.Text, out int _value);
-            if (_result && _value >= 0 && _value <= BitmapConfig.MAX_SIZE)
-                ConfigInstance.SetWidth(_value);
+            ComboBoxItem _item = CbsWidth.SelectedValue as ComboBoxItem;
+            if (_item != null)
+                ConfigInstance.SetWidth(int.Parse(_item.Content.ToString()));
             else
-                TxtBoxWidth.Text = ConfigInstance.Width.ToString();
+            {
+                Console.WriteLine("An error has occured !");
+                Debugger.Break();
+            }
         }
 
         void OnDesiredHeightUpdated(object _sender, RoutedEventArgs _eventArgs)
         {
-            bool _result = int.TryParse(TxtBoxHeight.Text, out int _value);
-            if (_result && _value >= 0 && _value <= BitmapConfig.MAX_SIZE)
-                ConfigInstance.SetHeight(_value);
+            ComboBoxItem _item = CbsHeight.SelectedValue as ComboBoxItem;
+            if (_item != null)
+                ConfigInstance.SetHeight(int.Parse(_item.Content.ToString()));
             else
-                TxtBoxHeight.Text = ConfigInstance.Height.ToString();
+            {
+                Console.WriteLine("An error has occured !");
+                Debugger.Break();
+            }
         }
     }
 }

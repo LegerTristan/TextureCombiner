@@ -54,9 +54,9 @@ namespace TextureCombiner
 
         public AuthorizedPixelFormat AuthorizedPixelFormat => pixelFormat;
 
-        int width = 1080;
+        int width = 1024;
 
-        int height = 1080;
+        int height = 1024;
 
         public int Width => width;
 

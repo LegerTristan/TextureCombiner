@@ -13,7 +13,7 @@
         WindowStartupLocation="CenterScreen" 
         Background="#FFF4F4F4" 
         RenderTransformOrigin="0.5,0.5" 
-        ResizeMode="CanResizeWithGrip">
+        ResizeMode="CanResizeWithGrip" Icon="TextureCombinerIcon.png">
     <Grid x:Name="MainGrid" Background="#FFF3F3F3">
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>

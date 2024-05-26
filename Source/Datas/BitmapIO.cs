@@ -17,7 +17,7 @@ namespace TextureCombiner
         IEncodingOptions[] encodingOptions = null;
 
         #region Properties
-        public string DefaultFileName => "Hehe";
+        public string DefaultFileName => "Default";
         public string DefaultFolder => Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         #endregion
 
