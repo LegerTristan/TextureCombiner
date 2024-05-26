@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="TextureCombiner.UI.Controls.TextureParameters"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TextureCombiner.UI.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="800">
+    <Grid x:Name="TextureParametersGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="TxtTextureParams" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,2,0,0" TextWrapping="Wrap" Text="Texture parameters : " Foreground="White" FontSize="14" FontWeight="Bold"/>
+
+        <Grid x:Name="ParametersGrid" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Name="TxtFormat" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,110,0" TextWrapping="Wrap" Text="Texture format" Foreground="White" FontSize="14"/>
+            <ComboBox x:Name="CbsTextureFormat" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="110,0,0,0" Width="100" FontSize="14" SelectedIndex="0" SelectionChanged="OnTextureFormatChanged">
+                <ComboBoxItem Content=".tga" FontSize="14"/>
+                <ComboBoxItem Content=".png" FontSize="14"/>
+                <ComboBoxItem Content=".tiff" FontSize="14"/>
+                <ComboBoxItem Content=".bmp" FontSize="14"/>
+                <ComboBoxItem Content=".jpg" FontSize="14"/>
+            </ComboBox>
+            <TextBlock x:Name="TxtPixelFormat" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,100,0" TextWrapping="Wrap" Text="Pixels format" Foreground="White" FontSize="14"/>
+            <ComboBox x:Name="CbsPixelFormat" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="100,0,0,0" Width="100" FontSize="14" SelectedIndex="0" SelectionChanged="OnPixelFormatChanged">
+                <ComboBoxItem Content="RGB24" FontSize="14"/>
+                <ComboBoxItem Content="BGRA32" FontSize="14"/>
+                <ComboBoxItem Content="RGBA32" FontSize="14"/>
+                <ComboBoxItem Content="BGR24" FontSize="14"/>
+                <ComboBoxItem Content="RGB48" FontSize="14"/>
+            </ComboBox>
+            <TextBlock x:Name="TxtSize" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,150,0" TextWrapping="Wrap" Text="Size" Foreground="White" FontSize="14"/>
+            <ComboBox x:Name="CbsWidth" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,60,0" Width="60" FontSize="14" SelectedIndex="4" SelectionChanged="OnDesiredWidthUpdated">
+                <ComboBoxItem Content="64" FontSize="14"/>
+                <ComboBoxItem Content="128" FontSize="14"/>
+                <ComboBoxItem Content="256" FontSize="14"/>
+                <ComboBoxItem Content="512" FontSize="14"/>
+                <ComboBoxItem Content="1024" FontSize="14"/>
+                <ComboBoxItem Content="2048" FontSize="14"/>
+                <ComboBoxItem Content="4096" FontSize="14"/>
+                <ComboBoxItem Content="8192" FontSize="14"/>
+            </ComboBox>
+            <TextBlock x:Name="TxtSizeSeparation" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20,0,0,0" Width="10" TextWrapping="Wrap" Text="x" Foreground="White" FontSize="14"/>
+            <ComboBox x:Name="CbsHeight" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="100,0,0,0" Width="60" FontSize="14" SelectedIndex="4" SelectionChanged="OnDesiredHeightUpdated">
+                <ComboBoxItem Content="64" FontSize="14"/>
+                <ComboBoxItem Content="128" FontSize="14"/>
+                <ComboBoxItem Content="256" FontSize="14"/>
+                <ComboBoxItem Content="512" FontSize="14"/>
+                <ComboBoxItem Content="1024" FontSize="14"/>
+                <ComboBoxItem Content="2048" FontSize="14"/>
+                <ComboBoxItem Content="4096" FontSize="14"/>
+                <ComboBoxItem Content="8192" FontSize="14"/>
+            </ComboBox>
+        </Grid>
+    </Grid>
+</UserControl>
