@@ -74,8 +74,9 @@ namespace TextureCombiner
             {
                 Dispatcher.Invoke(() =>
                 {
-                    _bitmap.Freeze();
-                    SetBitmapPreview(_bitmap);
+                    _bitmap.Freeze();           // Need to freeze the bitmap until we set the preview 
+                    SetBitmapPreview(_bitmap);  // or else it will be edited by a background process,
+                                                // resulting in an alteration of the pixels.
                     ConfigInstance.UpdateBitmapPixelFormat();
                     SetEnableButtons(true);
                 });
@@ -122,7 +123,6 @@ namespace TextureCombiner
         void SetTexturePathsAt(int _index, BitmapImage _image)
         {
             ConfigInstance.SetTextureAt(_image, _index);
-            UpdateTexturePreview();
         }
 
         /// <summary>
@@ -130,11 +130,11 @@ namespace TextureCombiner
         /// </summary>
         void UpdateTexturePreview()
         {
-            if(!TextureChannelA.IsValid() || !TextureChannelB.IsValid() || !TextureChannelC.IsValid())
+            if(!TextureChannelA.IsValid() || !TextureChannelB.IsValid() || !TextureChannelC.IsValid() || !TextureChannelD.IsAlphaChannelValid())
+            {
+                DisplayError("One or more of the texture channels is empty !");
                 return;
-
-            if (!TextureChannelD.IsAlphaChannelValid())
-                return;
+            }
 
             SetEnableButtons(false);
             DisplayLog(INFO_GENERATION, Colors.White);
@@ -180,7 +180,12 @@ namespace TextureCombiner
             ImgPreview.Source = _bitmap;
         }
 
-        private void OnBtnSaveClicked(object _sender, RoutedEventArgs _e)
+        void OnBtnGenerateClicked(object _sender, RoutedEventArgs _e)
+        {
+            UpdateTexturePreview();
+        }
+
+        void OnBtnSaveClicked(object _sender, RoutedEventArgs _e)
         {
             DisplayLog(INFO_SAVE, Colors.White);
             pendingSave = true;

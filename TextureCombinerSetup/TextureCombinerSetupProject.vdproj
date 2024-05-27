@@ -321,6 +321,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_4B2D42B5A80C42438AEC3662610DE695"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_4D9E779010C6C524CDACC9FD04F7F4B5"
         "OwnerKey" = "8:_EA23497DE55842C8BC5B5CA86FD54DC6"
         "MsmSig" = "8:_UNDEFINED"
@@ -507,6 +513,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_75FB8D7E6C954BDC9AAA1B83ACBD972B"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_78EE85FF8CD2F132783E99E972E696C3"
         "OwnerKey" = "8:_EA23497DE55842C8BC5B5CA86FD54DC6"
         "MsmSig" = "8:_UNDEFINED"
@@ -545,6 +557,24 @@
         {
         "MsmKey" = "8:_816C0DC61B8BA808F069D2B1EF55A21D"
         "OwnerKey" = "8:_83B4BB8859B3E349A8D0F91A24A6EC3E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_819EB45D23E6456D85AC316CECC648E9"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_81B618038CD047358E3B2100A883DE47"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8213CB26261E46FFA77978C65319E2DD"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1545,6 +1575,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_E8A6362F6FD34F13A7407A43E10CE021"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_EA23497DE55842C8BC5B5CA86FD54DC6"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -1637,6 +1673,12 @@
         {
         "MsmKey" = "8:_FE2B1D28EDA850987A4B9A62FF07490C"
         "OwnerKey" = "8:_A141B4B58285DC7EDBECE24DEB7EE98E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FE8A44090124484EA23217F35E303E88"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1875,7 +1917,7 @@
         "DisplayName" = "8:Debug"
         "IsDebugOnly" = "11:TRUE"
         "IsReleaseOnly" = "11:FALSE"
-        "OutputFilename" = "8:TextureCombiner Setup.msi"
+        "OutputFilename" = "8:..\\TextureCombinerSetupProject\\TextureCombiner Setup.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -1891,7 +1933,7 @@
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:TextureCombiner Setup.msi"
+        "OutputFilename" = "8:..\\TextureCombinerSetupProject\\TextureCombiner Setup.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -2922,6 +2964,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4B2D42B5A80C42438AEC3662610DE695"
+            {
+            "SourcePath" = "8:..\\TextureCombiner\\Assets\\BorderBox.png"
+            "TargetName" = "8:BorderBox.png"
+            "Tag" = "8:"
+            "Folder" = "8:_66B842D0B0CF42A0B8CDC29BAEA63244"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4D9E779010C6C524CDACC9FD04F7F4B5"
             {
             "AssemblyRegister" = "3:1"
@@ -3542,6 +3604,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_75FB8D7E6C954BDC9AAA1B83ACBD972B"
+            {
+            "SourcePath" = "8:..\\TextureCombiner\\Assets\\TextureCombiner.ico"
+            "TargetName" = "8:TextureCombiner.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_66B842D0B0CF42A0B8CDC29BAEA63244"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_78EE85FF8CD2F132783E99E972E696C3"
             {
             "AssemblyRegister" = "3:1"
@@ -3633,6 +3715,66 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_819EB45D23E6456D85AC316CECC648E9"
+            {
+            "SourcePath" = "8:..\\TextureCombiner\\Assets\\ImageBackground.png"
+            "TargetName" = "8:ImageBackground.png"
+            "Tag" = "8:"
+            "Folder" = "8:_66B842D0B0CF42A0B8CDC29BAEA63244"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_81B618038CD047358E3B2100A883DE47"
+            {
+            "SourcePath" = "8:..\\TextureCombiner\\Assets\\TextureCombinerBackground.jpg"
+            "TargetName" = "8:TextureCombinerBackground.jpg"
+            "Tag" = "8:"
+            "Folder" = "8:_66B842D0B0CF42A0B8CDC29BAEA63244"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8213CB26261E46FFA77978C65319E2DD"
+            {
+            "SourcePath" = "8:..\\TextureCombiner\\Assets\\IconError.png"
+            "TargetName" = "8:IconError.png"
+            "Tag" = "8:"
+            "Folder" = "8:_66B842D0B0CF42A0B8CDC29BAEA63244"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_827F2C15B8D761B28D473775B8C98B5E"
@@ -5267,6 +5409,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E8A6362F6FD34F13A7407A43E10CE021"
+            {
+            "SourcePath" = "8:..\\TextureCombiner\\Assets\\TextureCombinerIcon.png"
+            "TargetName" = "8:TextureCombinerIcon.png"
+            "Tag" = "8:"
+            "Folder" = "8:_66B842D0B0CF42A0B8CDC29BAEA63244"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EBFB082EEBC94D590F169BD2D72E2F69"
             {
             "AssemblyRegister" = "3:1"
@@ -5546,6 +5708,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FE8A44090124484EA23217F35E303E88"
+            {
+            "SourcePath" = "8:..\\TextureCombiner\\Assets\\IconWarning.png"
+            "TargetName" = "8:IconWarning.png"
+            "Tag" = "8:"
+            "Folder" = "8:_66B842D0B0CF42A0B8CDC29BAEA63244"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FF85B8F8ED57E35A47D38BC0AF6FABE5"
             {
             "AssemblyRegister" = "3:1"
@@ -5604,6 +5786,17 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_66B842D0B0CF42A0B8CDC29BAEA63244"
+                    {
+                    "Name" = "8:Assets"
+                    "AlwaysCreate" = "11:TRUE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_5E8B822AA3BB4D7DA25A661BD11601C7"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
             "{1525181F-901A-416C-8A58-119130FE478E}:_9839A52DB9884D92B25DB19F1EEDBCBB"
@@ -5634,7 +5827,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:TextureCombiner"
         "ProductCode" = "8:{D2B6210B-ACDC-46E1-BA43-CB26F4B5E0A3}"
-        "PackageCode" = "8:{970BCD73-89FF-49C3-9499-71112D83B2CA}"
+        "PackageCode" = "8:{90B29016-CA95-4459-A112-A1BF7794D57B}"
         "UpgradeCode" = "8:{EBFEA1D6-4271-4148-85CA-51C39EC8BA11}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -6439,7 +6632,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_EA23497DE55842C8BC5B5CA86FD54DC6"
             {
-            "SourcePath" = "8:..\\TextureCombiner\\obj\\Release\\TextureCombiner.exe"
+            "SourcePath" = "8:..\\TextureCombiner\\obj\\Debug\\TextureCombiner.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_945F38113201403F894ED5DC7461811B"
