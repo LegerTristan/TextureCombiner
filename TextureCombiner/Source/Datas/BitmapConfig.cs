@@ -36,7 +36,8 @@ namespace TextureCombiner
         #region F/P
         public event Action<TextureFormat> OnTextureFormatChanged = null;
         public event Action<AuthorizedPixelFormat> OnPixelFormatChanged = null;
-        public event Action OnSizeExceed = null;
+        public event Action OnSizeExceed = null,
+                            OnSizeUpdated = null;
 
         public const int MAX_SIZE = 8192;
 
@@ -74,6 +75,8 @@ namespace TextureCombiner
             textures[_index] = _src;
             if (DoesSizeExceedCurrentTextures())
                 OnSizeExceed?.Invoke();
+            else
+                OnSizeUpdated?.Invoke();
         }
 
         public void SetWidth(int _newValue)
@@ -81,6 +84,8 @@ namespace TextureCombiner
             width = _newValue;
             if (DoesSizeExceedCurrentTextures())
                 OnSizeExceed?.Invoke();
+            else
+                OnSizeUpdated?.Invoke();
         }
 
         public void SetHeight(int _newValue)
@@ -88,6 +93,8 @@ namespace TextureCombiner
             height = _newValue;
             if (DoesSizeExceedCurrentTextures())
                 OnSizeExceed?.Invoke();
+            else
+                OnSizeUpdated?.Invoke();
         }
 
         bool DoesSizeExceedCurrentTextures()

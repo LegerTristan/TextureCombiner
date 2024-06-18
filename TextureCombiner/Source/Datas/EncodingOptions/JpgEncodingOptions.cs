@@ -18,7 +18,7 @@ namespace TextureCombiner.Source.Datas.EncodingOptions
         }
 
         public IImageEncoder GetEncoder()
-        {
+        {            
             JpegEncoder _encoder = new JpegEncoder();
             _encoder.ColorType = JpegColorType.Rgb;
             _encoder.Quality = quality;

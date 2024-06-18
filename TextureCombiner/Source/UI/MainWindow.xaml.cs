@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Media;
-using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.IO;
 using System.Windows.Threading;
@@ -69,6 +67,7 @@ namespace TextureCombiner
             io = new BitmapIO(EncodingParametersPart);
             FileParametersPart.InitTexts(io.DefaultFolder, io.DefaultFileName);
             ConfigInstance.OnSizeExceed += DisplayWarningSizeExceed;
+            ConfigInstance.OnSizeUpdated += HideInfo;
 
             generator.OnGenerationCompleted += (_bitmap) =>
             {
@@ -250,6 +249,12 @@ namespace TextureCombiner
         }
 
         void DisplayWarningSizeExceed() => DisplayWarning(WARNING_SIZE_EXCEED);
+
+        void HideInfo()
+        {
+            TxtInfo.Visibility = Visibility.Collapsed;
+            ImgIconInfo.Visibility = Visibility.Collapsed;
+        }
 
         void OnAboutClicked(object _sender, RoutedEventArgs _eventsArgs)
         {

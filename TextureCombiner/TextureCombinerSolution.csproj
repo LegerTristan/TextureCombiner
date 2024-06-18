@@ -95,6 +95,7 @@
     <Compile Include="Source\Datas\EncodingOptions\TiffEncodingOptions.cs" />
     <Compile Include="Source\Datas\EncodingOptions\TgaEncodingOptions.cs" />
     <Compile Include="Source\Datas\EncodingOptions\BmpEncodingOptions.cs" />
+    <Compile Include="Source\Datas\TGA\TgaBitmapEncoder.cs" />
     <Compile Include="Source\Datas\Utils\EncodingOptions.cs" />
     <Compile Include="Source\Datas\Utils\SingletonTemplate.cs" />
     <Compile Include="Source\UI\MainWindow.xaml.cs">
